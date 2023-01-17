@@ -10,7 +10,7 @@ public class Homepage extends JPanel implements ActionListener {
         this.setLayout(new BorderLayout());
 
         top = new JPanel();
-        top.setBackground(new Color(0,0,0, 100));
+        top.setBackground(new Color(0, 0, 0, 0));
         JLabel l = new JLabel(new ImageIcon("Untitled.png"));
         l.setBounds(0,0,1,100);
         top.add(l);
@@ -19,26 +19,30 @@ public class Homepage extends JPanel implements ActionListener {
         center = new Map();
         this.add(center, BorderLayout.CENTER);
 
-        bottom = new JPanel(new BorderLayout());
-        top.setBackground(new Color(0,0,0, 10));
+        bottom = new JPanel(new GridLayout(1,5));
+        bottom.setBackground(new Color(0, 0, 0, 0));
         shop = new JButton(new ImageIcon("shop.png"));
         shop.setBorderPainted(false);
         shop.setContentAreaFilled(false);
         shop.setOpaque(false);
         shop.addActionListener(this);
-        bottom.add(shop, BorderLayout.EAST);
+        bottom.add(shop);
+        for (int i = 0; i < 3; i++){
+            bottom.add(new JLabel(""));
+        }
         inventoryBtn = new JButton(new ImageIcon("edit.png"));
         inventoryBtn.setBorderPainted(false);
         inventoryBtn.setContentAreaFilled(false);
         inventoryBtn.setOpaque(false);
         inventoryBtn.addActionListener(this);
+        bottom.add(inventoryBtn);
 
         factoryBtn = new JButton(new ImageIcon("factory.png"));
         factoryBtn.setBorderPainted(false);
         factoryBtn.setContentAreaFilled(false);
         factoryBtn.setOpaque(false);
         factoryBtn.addActionListener(this);
-        bottom.add(factoryBtn BorderLayout.WEST);
+        bottom.add(factoryBtn);
         this.add(bottom, BorderLayout.SOUTH);
     }
 
@@ -73,7 +77,7 @@ public class Homepage extends JPanel implements ActionListener {
             Cards.flipToCard("Shop");
         else if(e.getSource() == inventoryBtn)
             Cards.flipToCard("Inventory");
-        else if(e.getSource()) == factoryBtn)
+        else if(e.getSource() == factoryBtn)
             Cards.flipToCard("Factory");
     }
 }

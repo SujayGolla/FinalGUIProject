@@ -18,7 +18,7 @@ public class Factory extends JPanel implements ActionListener{
     private final ShopItemTiles[] farmsArray = {ShopItemTiles.getShopItem("Field"), ShopItemTiles.getShopItem("Cowshed"), ShopItemTiles.getShopItem("Chicken Coop"), ShopItemTiles.getShopItem("Sheep Farm")};
     private final ShopItemTiles[][] shop = { factoriesArray, farmsArray};
     private int cnt = 0;
-    public Shop(){
+    public Factory(){
         this.setLayout(new BorderLayout());
         this.setBackground(Color.GRAY);
         makeNorth();
@@ -207,7 +207,7 @@ public class Factory extends JPanel implements ActionListener{
                 for(ShopItemTiles s : a){
                     if (name.startsWith(s.getName())) {
                         String category = "";
-                        } if (Arrays.equals(a, factoriesArray)) {
+                        if (Arrays.equals(a, factoriesArray)) {
                             category = "Factories";
                         } else if (Arrays.equals(a, farmsArray)) {
                             category = "Farms";
