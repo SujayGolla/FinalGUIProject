@@ -20,7 +20,7 @@ public class Homepage extends JPanel implements ActionListener {
         this.add(center, BorderLayout.CENTER);
 
         bottom = new JPanel(new GridLayout(1,5));
-        bottom.setBackground(new Color(0, 0, 0, 0));
+        bottom.setBackground(Color.LIGHT_GRAY);
         shop = new JButton(new ImageIcon("shop.png"));
         shop.setBorderPainted(false);
         shop.setContentAreaFilled(false);

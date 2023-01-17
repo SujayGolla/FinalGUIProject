@@ -254,23 +254,25 @@ public class Shop extends JPanel implements ActionListener{
         else if(b == crops)
             centerFlipToCard("Crops");
         else {
-            for(ShopItemTiles[] a : shop){
-                for(ShopItemTiles s : a){
-                    if (name.startsWith(s.getName())) {
+            for (int i = 0; i < shop.length; i++) {
+                ShopItemTiles[] a = shop[i];
+                for (int j = 0; j < a.length; j++) {
+                    ShopItemTiles s = a[j];
+                    if (s != null && name.startsWith(s.getName())) {
                         String category = "";
-                        if (Arrays.equals(a, housesArray)) {
+                        if (a.equals(housesArray)) {
                             category = "Houses";
-                        } else if (Arrays.equals(a, factoriesArray)) {
+                        } else if (a.equals(factoriesArray)) {
                             category = "Factories";
-                        } else if (Arrays.equals(a, farmsArray)) {
+                        } else if (a.equals(farmsArray)) {
                             category = "Farms";
-                        } else if (Arrays.equals(a, basicsArray)) {
+                        } else if (a.equals(basicsArray)) {
                             category = "Basics";
-                        } else if (Arrays.equals(a, specialsArray)) {
+                        } else if (a.equals(specialsArray)) {
                             category = "Specials";
                         }
                         try {
-                            if(s.canBuyItem()) {
+                            if (s.canBuyItem()) {
                                 s.purchaseItem();
                                 Inventory.addShopItem(s, category);
                             }

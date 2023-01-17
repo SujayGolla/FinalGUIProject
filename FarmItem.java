@@ -10,7 +10,7 @@ import java.awt.*;
 public class FarmItem extends ShopItemTiles {
     private int reqPpl;
     private final int size = 60;
-    private static final String farms = "Field, Cowshed, Chicken Coop, Sheep Farm";
+    private static final String farms = "Cowshed, Chicken Coop, Sheep Farm";
     public FarmItem(String name, int price, ImageIcon img, ImageIcon[] animations, int unlockLVL, int reqPpl) {
         super(name, price, img, animations, unlockLVL);
         this.reqPpl = reqPpl;
@@ -18,10 +18,6 @@ public class FarmItem extends ShopItemTiles {
 
     public int getReqPpl() {
         return reqPpl;
-    }
-
-    public void setReqPpl(int reqPpl) {
-        this.reqPpl = reqPpl;
     }
 
     public boolean canBuyItem(){
@@ -32,10 +28,7 @@ public class FarmItem extends ShopItemTiles {
         if(canBuyItem()){
             Game.setCoins(Game.getCoins() - price);
             Game.setXp(Game.getXp() + 10);
-            if(name.equals("Field"))
-                setReqPpl(getReqPpl() + 5);
-            else
-                setReqPpl(getReqPpl() + 35);
+            reqPpl += 35;
         }else{
             if(Game.getLvl() < unlockLVL)
                 JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);

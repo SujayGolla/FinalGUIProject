@@ -14,11 +14,6 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
     private JButton factories, houses, farming, basics, special, back, merchant;
     private CardLayout layout;
     public EditOptionPanel(){
-        try {
-            new Inventory();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
         this.setLayout(new BorderLayout());
 
         back = new JButton(new ImageIcon("back.png"));

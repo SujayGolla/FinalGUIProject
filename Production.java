@@ -22,7 +22,6 @@ public class Production extends JPanel implements ActionListener{
     private final ShopItemTiles[][] shop = {factoriesArray, farmsArray};
     private int cnt = 0;
     public Production(){
-        new Inventory();
         this.setLayout(new BorderLayout());
         this.setBackground(Color.GRAY);
         barn = BarnItem.getBarn();

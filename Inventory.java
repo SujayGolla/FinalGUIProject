@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Inventory {
@@ -103,9 +104,11 @@ public class Inventory {
     }
     public static int specificItemCounter(ArrayList<ShopItemTiles> a, String name){
         int cnt = 0;
-        for(ShopItemTiles s : a){
-            if(s.getName().equals(name))
+        for (int i = 0; i < a.size(); i++) {
+            ShopItemTiles s = a.get(i);
+            if (name.equals(s.getName())) {
                 cnt++;
+            }
         }
         return cnt;
     }

@@ -13,5 +13,6 @@ public class Main {
     game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     game.setVisible(true);
     game.setResizable(false);
+    new Inventory();
   }
 }
