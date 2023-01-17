@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class BarnItem extends ShopItemTiles{
-    private int val;
-    private String factoryName;
+    private final int val;
+    private final String factoryName;
     private ShopItemTiles[] requirements;
+    private static final BarnItem[][] barn = {{BarnItem.getBarnItem("Bread")}, {BarnItem.getBarnItem("Cow Feed"), BarnItem.getBarnItem("Chicken Feed"), BarnItem.getBarnItem("Sheep Feed")}, {BarnItem.getBarnItem("Cream"), BarnItem.getBarnItem("Cheese"), BarnItem.getBarnItem("Butter")}, {BarnItem.getBarnItem("Cotton Fabric"), BarnItem.getBarnItem("Yarn")}, {BarnItem.getBarnItem("Cheeseburger"), BarnItem.getBarnItem("Sandwich"), BarnItem.getBarnItem("French fries"), BarnItem.getBarnItem("Milkshake")}, {BarnItem.getBarnItem("Milk")}, {BarnItem.getBarnItem("Egg")}, {BarnItem.getBarnItem("Wool")}};
     public BarnItem(String name, ShopItemTiles[] requirements, int val, ImageIcon img, String factoryName){
         super(name, 0, img, null, 0);
         new Inventory();
@@ -22,15 +23,15 @@ public class BarnItem extends ShopItemTiles{
         } else if (name.equals("Sheep Feed")) {
             return new BarnItem("Sheep Feed", new ShopItemTiles[]{ShopItemTiles.getShopItem("Corn"), ShopItemTiles.getShopItem("Corn"), ShopItemTiles.getShopItem("Carrot"), ShopItemTiles.getShopItem("Carrot")}, 20, new ImageIcon("Sheepfeed.webp"), "Feed Mill");
         } else if (name.equals("Cream")) {
-            return new BarnItem("Cream", new ShopItemTiles[]{BarnItem.getBarnItem("Milk")}, 20, new ImageIcon("Cream.webp"), "Dairy Factory");
+            return new BarnItem("Cream", new ShopItemTiles[]{BarnItem.getBarnItem("Milk")}, 20, new ImageIcon("Cream.webp"), "Dairy Production");
         } else if (name.equals("Cheese")) {
-            return new BarnItem("Sheep Feed", new ShopItemTiles[]{BarnItem.getBarnItem("Milk"), BarnItem.getBarnItem("Milk")}, 20, new ImageIcon("Cheese.webp"), "Dairy Factory");
+            return new BarnItem("Cheese", new ShopItemTiles[]{BarnItem.getBarnItem("Milk"), BarnItem.getBarnItem("Milk")}, 20, new ImageIcon("Cheese.webp"), "Dairy Production");
         } else if (name.equals("Butter")) {
-            return new BarnItem("Sheep Feed", new ShopItemTiles[]{BarnItem.getBarnItem("Milk"), BarnItem.getBarnItem("Milk"), BarnItem.getBarnItem("Milk")}, 20, new ImageIcon("Butter.webp"), "Dairy Factory");
+            return new BarnItem("Butter", new ShopItemTiles[]{BarnItem.getBarnItem("Milk"), BarnItem.getBarnItem("Milk"), BarnItem.getBarnItem("Milk")}, 20, new ImageIcon("Butter.webp"), "Dairy Production");
         } else if (name.equals("Cotton Fabric")) {
-            return new BarnItem("Cotton Fabric", new ShopItemTiles[]{ShopItemTiles.getShopItem("Cotton"), ShopItemTiles.getShopItem("Cotton")}, 20, new ImageIcon("Cotton_fabric.webp"), "Textile Factory");
+            return new BarnItem("Cotton Fabric", new ShopItemTiles[]{ShopItemTiles.getShopItem("Cotton"), ShopItemTiles.getShopItem("Cotton")}, 20, new ImageIcon("Cotton_fabric.webp"), "Textile Production");
         } else if (name.equals("Yarn")) {
-            return new BarnItem("Yarn", new ShopItemTiles[]{BarnItem.getBarnItem("Wool"), BarnItem.getBarnItem("Wool")}, 20, new ImageIcon("Yarn.webp"), "Textile Factory");
+            return new BarnItem("Yarn", new ShopItemTiles[]{BarnItem.getBarnItem("Wool"), BarnItem.getBarnItem("Wool")}, 20, new ImageIcon("Yarn.webp"), "Textile Production");
         } else if (name.equals("Cheeseburger")) {
             return new BarnItem("Cheeseburger", new ShopItemTiles[]{BarnItem.getBarnItem("Bread"), BarnItem.getBarnItem("Cheese"), ShopItemTiles.getShopItem("Tomatoes")}, 20, new ImageIcon("Cheeseburger.webp"), "Fast Food Restaurant");
         } else if (name.equals("Sandwich")) {
@@ -42,7 +43,7 @@ public class BarnItem extends ShopItemTiles{
         } else if (name.equals("Milk")) {
             return new BarnItem("Milk", new ShopItemTiles[]{BarnItem.getBarnItem("Cow Feed")}, 20, new ImageIcon("Milk.webp"), "Cowshed");
         } else if (name.equals("Egg")) {
-            return new BarnItem("Sheep Feed", new ShopItemTiles[]{BarnItem.getBarnItem("Chicken Feed")}, 20, new ImageIcon("Egg.webp"), "Chicken Coop");
+            return new BarnItem("Egg", new ShopItemTiles[]{BarnItem.getBarnItem("Chicken Feed")}, 20, new ImageIcon("Egg.webp"), "Chicken Coop");
         } else if (name.equals("Wool")) {
             return new BarnItem("Wool", new ShopItemTiles[]{BarnItem.getBarnItem("Sheep Feed")}, 20, new ImageIcon("Wool.webp"), "Sheep Farm");
         }
@@ -57,12 +58,22 @@ public class BarnItem extends ShopItemTiles{
                 for (ShopItemTiles item : a){
                     if(item.getName().equals(s.getName())) {
                         found = true;
-
+                        a.remove(item);
                         break myLabel;
                     }
                 }
             }
+            if(!found)
+                return false;
         }
         return true;
+    }
+
+    public static BarnItem[][] getBarn() {
+        return barn;
+    }
+
+    public ShopItemTiles[] getRequirements() {
+        return requirements;
     }
 }

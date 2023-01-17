@@ -15,7 +15,7 @@ public class Cards extends JFrame{
     static Shop s;
     static EditOptionPanel iP;
     static Merchant me;
-    static Factory f;
+    static Production f;
 
     public Cards() throws Exception{
         c = getContentPane();
@@ -27,14 +27,14 @@ public class Cards extends JFrame{
         s = new Shop();
         iP = new EditOptionPanel();
         me = new Merchant();
-        f = new Factory();
+        f = new Production();
 
         c.add("MainMenu", m);
         c.add("Homepage", h);
         c.add("Shop", s);
         c.add("Inventory", iP);
         c.add("Merchant", me);
-        c.add("Factory", f);
+        c.add("Production", f);
     }
 
     public static void flipToCard(String cardID){

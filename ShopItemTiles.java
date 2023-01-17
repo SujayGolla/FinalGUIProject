@@ -17,7 +17,7 @@ public class ShopItemTiles {
     protected int y = -1;
     protected static final int numFactories = 5;
     protected static final int numHouses = 4;
-    protected static final int numFarms = 4;
+    protected static final int numFarms = 3;
     protected static final int numCrops = 7;
     protected static final int numBasics = 3;
     protected static final int numSpecials = 3;
@@ -49,18 +49,11 @@ public class ShopItemTiles {
         this.unlockLVL = 0;
     }
 
-    public ShopItemTiles(){
-        this.name = null;
-        this.price = 0;
-        this.img = null;
-        this.animations = null;
-        this.unlockLVL = 0;
-    }
-
     public void purchaseItem() throws Exception {
         if(canBuyItem()) {
             Game.setCoins(Game.getCoins() - price);
             Game.setXp(Game.getXp() + 10);
+            JOptionPane.showMessageDialog(Cards.c, "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         }else {
             if(Game.getLvl() < unlockLVL)
                 JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
@@ -172,16 +165,14 @@ public class ShopItemTiles {
             return new HouseItem("Condos", 300, new ImageIcon("Condo.png"), null, 8, 100);
         } else if (name.equals("Feed Mill")) {
             return new FactoryItem("Feed Mill", 50, new ImageIcon("Feedmill.png"), null, 1, 10);
-        } else if (name.equals("Dairy Factory")) {
-            return new FactoryItem("Dairy Factory", 50, new ImageIcon("Dairy.png"), null, 2, 25);
-        } else if (name.equals("Textile Factory")) {
-            return new FactoryItem("Textile Factory", 100, new ImageIcon("Textile.png"), null, 4, 50);
+        } else if (name.equals("Dairy Production")) {
+            return new FactoryItem("Dairy Production", 50, new ImageIcon("Dairy.png"), null, 2, 25);
+        } else if (name.equals("Textile Production")) {
+            return new FactoryItem("Textile Production", 100, new ImageIcon("Textile.png"), null, 4, 50);
         } else if (name.equals("Bakery")) {
             return new FactoryItem("Bakery", 200, new ImageIcon("Bakery.png"), null, 7, 100);
         } else if (name.equals("Fast Food Restaurant")) {
             return new FactoryItem("Fast Food Restaurant", 300, new ImageIcon("Fastfood.png"), null, 9, 120);
-        } else if (name.equals("Field")) {
-            return new FarmItem("Field", 0, new ImageIcon("field.png"), null, 1, 5);
         } else if (name.equals("Cowshed")) {
             return new FarmItem("Cowshed", 50, new ImageIcon("Cowshed.png"), null, 1, 10);
         } else if (name.equals("Chicken Coop")) {

@@ -78,6 +78,6 @@ public class Homepage extends JPanel implements ActionListener {
         else if(e.getSource() == inventoryBtn)
             Cards.flipToCard("Inventory");
         else if(e.getSource() == factoryBtn)
-            Cards.flipToCard("Factory");
+            Cards.flipToCard("Production");
     }
 }

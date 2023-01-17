@@ -10,7 +10,7 @@ import java.awt.*;
 public class FactoryItem extends ShopItemTiles {
     private int reqPpl;
     private final int size = 60;
-    private static final String factories = "Feed Mill, Dairy Factory, Textile Factory, Meat Production, Bakery, Fast Food Restaurant";
+    private static final String factories = "Feed Mill, Dairy Production, Textile Production, Meat Production, Bakery, Fast Food Restaurant";
     public FactoryItem(String name, int price, ImageIcon img, ImageIcon[] animations, int unlockLVL, int reqPpl) {
         super(name, price, img, animations, unlockLVL);
         this.reqPpl = reqPpl;

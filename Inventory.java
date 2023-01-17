@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,7 +19,6 @@ public class Inventory {
     private static ArrayList<ShopItemTiles> basics;
     private static ArrayList<ShopItemTiles> specials;
     private static ArrayList<ArrayList<ShopItemTiles>> inventory = new ArrayList<ArrayList<ShopItemTiles>>();
-    private static int cnt = 0;
 
     public Inventory() {
         houses = new ArrayList<ShopItemTiles>();
@@ -35,36 +35,24 @@ public class Inventory {
         Scanner sc = null;
         try {
             sc = new Scanner(new File("Inventory.txt"));
-            new ShopItemTiles();
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
-        cnt++;
-        System.out.println(cnt);
-        for(ArrayList<ShopItemTiles> a : inventory) {
-            int tmp = 0;
-            if(a == houses)
-                tmp = ShopItemTiles.getNumHouses();
-            else if (a == factories)
-                tmp = ShopItemTiles.getNumFactories();
-            else if (a == farms)
-                tmp = ShopItemTiles.getNumFarms();
-            else if (a == basics)
-                tmp = ShopItemTiles.getNumBasics();
-            else if (a == specials)
-                tmp = ShopItemTiles.getNumSpecials();
-
-            sc.nextLine();
-            for(int i = 0; i < tmp; i++){
-                String line = sc.nextLine();
-                int numItems = Integer.parseInt(line.substring(0, line.indexOf("-")));
-                String name = line.substring(line.indexOf("-") + 1);
-                name = name.replace('_', ' ');
-                System.out.println(i + " "+line + " " + numItems + " " + name);
-                addItemsInitialization(a, numItems, name);
+        for(int i = 0; i < inventory.size(); i++) {
+            inventory.get(i).clear();
+            if(sc.hasNextLine())
+                sc.nextLine();
+            else
+                break;
+            String line = sc.nextLine();
+            while(!line.equals("----------")){
+                int numItems = Integer.parseInt(line.substring(0, line.indexOf('-')));
+                String name = line.substring(line.indexOf('-') + 1).replace('_', ' ');
+                addItemsInitialization(inventory.get(i), numItems, name);
+                line = sc.nextLine();
             }
-            sc.nextLine();
         }
+        sc.close();
     }
     public static void addItemsInitialization(ArrayList<ShopItemTiles> a, int n, String name){
         for(int i = 0; i < n; i++){
@@ -73,36 +61,40 @@ public class Inventory {
     }
     public static void update(){
         try {
+            for(ArrayList<ShopItemTiles> a : inventory){
+                for(ShopItemTiles s : a){
+                    System.out.println(s.getName());
+                }
+            }
             new FileWriter("Inventory.txt", false).close();
             FileWriter gameData = new FileWriter("Inventory.txt");
             gameData.write("Houses" + "\n");
-            gameData.write(specificItemCounter(houses, "Townhouse") + "-" + "Townhouse\n");
-            gameData.write(specificItemCounter(houses, "Bungalow") + "-" + "Bungalow\n");
-            gameData.write(specificItemCounter(houses, "Apartment") + "-" + "Apartment\n");
-            gameData.write(specificItemCounter(houses, "Condos") + "-" + "Condos\n");
+            gameData.write(specificItemCounter(inventory.get(0), "Townhouse") + "-" + "Townhouse\n");
+            gameData.write(specificItemCounter(inventory.get(0), "Bungalow") + "-" + "Bungalow\n");
+            gameData.write(specificItemCounter(inventory.get(0), "Apartment") + "-" + "Apartment\n");
+            gameData.write(specificItemCounter(inventory.get(0), "Condos") + "-" + "Condos\n");
             gameData.write("----------\n");
             gameData.write("Factories" + "\n");
-            gameData.write(specificItemCounter(factories, "Feed Mill") + "-" + "Feed_Mill\n");
-            gameData.write(specificItemCounter(factories, "Dairy Factory") + "-" + "Dairy_Factory\n");
-            gameData.write(specificItemCounter(factories, "Textile Factory") + "-" + "Textile_Factory\n");
-            gameData.write(specificItemCounter(factories, "Bakery") + "-" + "Bakery\n");
-            gameData.write(specificItemCounter(factories, "Fast Food Restaurant") + "-" + "Fast_Food_Restaurant\n");
+            gameData.write(specificItemCounter(inventory.get(1), "Feed Mill") + "-" + "Feed_Mill\n");
+            gameData.write(specificItemCounter(inventory.get(1), "Dairy Production") + "-" + "Dairy_Factory\n");
+            gameData.write(specificItemCounter(inventory.get(1), "Textile Production") + "-" + "Textile_Factory\n");
+            gameData.write(specificItemCounter(inventory.get(1), "Bakery") + "-" + "Bakery\n");
+            gameData.write(specificItemCounter(inventory.get(1), "Fast Food Restaurant") + "-" + "Fast_Food_Restaurant\n");
             gameData.write("----------\n");
             gameData.write("Farms" + "\n");
-            gameData.write(specificItemCounter(farms, "Field") + "-" + "Field\n");
-            gameData.write(specificItemCounter(farms, "Cowshed") + "-" + "Cowshed\n");
-            gameData.write(specificItemCounter(farms, "Chicken Coop") + "-" + "Chicken_Coop\n");
-            gameData.write(specificItemCounter(farms, "Sheep Farm") + "-" + "Sheep_Farm\n");
+            gameData.write(specificItemCounter(inventory.get(2), "Cowshed") + "-" + "Cowshed\n");
+            gameData.write(specificItemCounter(inventory.get(2), "Chicken Coop") + "-" + "Chicken_Coop\n");
+            gameData.write(specificItemCounter(inventory.get(2), "Sheep Farm") + "-" + "Sheep_Farm\n");
             gameData.write("----------\n");
             gameData.write("Basics" + "\n");
-            gameData.write(specificItemCounter(basics, "Roads") + "-" + "Roads\n");
-            gameData.write(specificItemCounter(basics, "Gravel") + "-" + "Gravel\n");
-            gameData.write(specificItemCounter(basics, "Tiles") + "-" + "Tiles\n");
+            gameData.write(specificItemCounter(inventory.get(3), "Roads") + "-" + "Roads\n");
+            gameData.write(specificItemCounter(inventory.get(3), "Gravel") + "-" + "Gravel\n");
+            gameData.write(specificItemCounter(inventory.get(3), "Tiles") + "-" + "Tiles\n");
             gameData.write("----------\n");
             gameData.write("Specials" + "\n");
-            gameData.write(specificItemCounter(specials, "Barn") + "-" + "Barn\n");
-            gameData.write(specificItemCounter(specials, "Townhall") + "-" + "Townhall\n");
-            gameData.write(specificItemCounter(specials, "Fountain") + "-" + "Fountain\n");
+            gameData.write(specificItemCounter(inventory.get(4), "Barn") + "-" + "Barn\n");
+            gameData.write(specificItemCounter(inventory.get(4), "Townhall") + "-" + "Townhall\n");
+            gameData.write(specificItemCounter(inventory.get(4), "Fountain") + "-" + "Fountain\n");
             gameData.write("----------");
             gameData.close();
         } catch (IOException ex) {

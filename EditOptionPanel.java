@@ -183,7 +183,7 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
     public void centerFlipToCard(String ID){
         layout.show(itemsList, ID);
     }
-    public ImageIcon resizeImg(ImageIcon img, int w, int h){
+    public static ImageIcon resizeImg(ImageIcon img, int w, int h){
         Image image = img.getImage();
         Image newImg = image.getScaledInstance(w, h,  java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(newImg);

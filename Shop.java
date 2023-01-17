@@ -15,7 +15,7 @@ public class Shop extends JPanel implements ActionListener{
     private JButton factories, houses, farming, basics, special, crops, back;
     private CardLayout layout;
     private final ShopItemTiles[] housesArray = {ShopItemTiles.getShopItem("Bungalow"), ShopItemTiles.getShopItem("Townhouse"), ShopItemTiles.getShopItem("Apartment"), ShopItemTiles.getShopItem("Condos")};
-    private final ShopItemTiles[] factoriesArray = {ShopItemTiles.getShopItem("Feed Mill"), ShopItemTiles.getShopItem("Dairy Factory"), ShopItemTiles.getShopItem("Textile Factory"), ShopItemTiles.getShopItem("Bakery"), ShopItemTiles.getShopItem("Fast Food Restaurant")};
+    private final ShopItemTiles[] factoriesArray = {ShopItemTiles.getShopItem("Feed Mill"), ShopItemTiles.getShopItem("Dairy Production"), ShopItemTiles.getShopItem("Textile Production"), ShopItemTiles.getShopItem("Bakery"), ShopItemTiles.getShopItem("Fast Food Restaurant")};
     private final ShopItemTiles[] farmsArray = {ShopItemTiles.getShopItem("Field"), ShopItemTiles.getShopItem("Cowshed"), ShopItemTiles.getShopItem("Chicken Coop"), ShopItemTiles.getShopItem("Sheep Farm")};
     private final ShopItemTiles[] cropsArray = {ShopItemTiles.getShopItem("Wheat"), ShopItemTiles.getShopItem("Carrot"), ShopItemTiles.getShopItem("Corn"), ShopItemTiles.getShopItem("Tomatoes"), ShopItemTiles.getShopItem("Rice"), ShopItemTiles.getShopItem("Apples"), ShopItemTiles.getShopItem("Strawberry"), ShopItemTiles.getShopItem("Cotton")};
     private final ShopItemTiles[] basicsArray = {ShopItemTiles.getShopItem("Roads"), ShopItemTiles.getShopItem("Gravel"), ShopItemTiles.getShopItem("Tiles")};
