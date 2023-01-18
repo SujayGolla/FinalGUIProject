@@ -41,6 +41,8 @@ public class Cards extends JFrame{
     }
 
     public static void flipToCard(String cardID){
+        if(cardID.equals("Inventory"))
+            iP.update();
         layout.show(c, cardID);
     }
 }

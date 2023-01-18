@@ -4,6 +4,8 @@ Class: ICS 3U7
 Teacher: Ms.Strelkovska
 */
 
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,6 +23,11 @@ public class ShopItemTiles {
     protected static final int numCrops = 7;
     protected static final int numBasics = 3;
     protected static final int numSpecials = 3;
+    protected static final String housesNames = "Townhouse, Bungalow, Apartment, Condos";
+    protected static final String factoriesNames = "Feed Mill, Dairy Production, Textile Production, Bakery, Fast Food Restaurant";
+    protected static final String farmsNames = "Cowshed, Chicken Coop, Sheep Farm";
+    protected static final String basicsNames = "Roads, Gravel, Tiles";
+    protected static final String specialsNames = "Townhall, Barn, Fountain";
     protected final int size = 30;
 
     public ShopItemTiles(String name, int price, ImageIcon img, ImageIcon[] animations, int unlockLVL){
@@ -52,9 +59,10 @@ public class ShopItemTiles {
     public void purchaseItem() throws Exception {
         if(canBuyItem()) {
             Game.setCoins(Game.getCoins() - price);
-            Game.setXp(Game.getXp() + 10);
+            if(price > 0)
+                Game.setXp(Game.getXp() + 10);
             JOptionPane.showMessageDialog(Cards.c, "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
-        }else {
+        } else {
             if(Game.getLvl() < unlockLVL)
                 JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
             else if (Game.getCoins() - price >= 0)
@@ -92,6 +100,26 @@ public class ShopItemTiles {
 
     public int getY() {
         return y;
+    }
+
+    public static String getBasicsNames() {
+        return basicsNames;
+    }
+
+    public static String getFactoriesNames() {
+        return factoriesNames;
+    }
+
+    public static String getFarmsNames() {
+        return farmsNames;
+    }
+
+    public static String getHousesNames() {
+        return housesNames;
+    }
+
+    public static String getSpecialsNames() {
+        return specialsNames;
     }
 
     public void setX(int x) {

@@ -6,6 +6,8 @@ Teacher: Ms.Strelkovska
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,14 +17,14 @@ import java.awt.geom.AffineTransform;
 
 
 
-public class Map extends JPanel implements MouseWheelListener{
+public class Map extends JPanel implements MouseWheelListener, KeyListener {
   
       private double zoomFactor = 1;
       private boolean zoomer;
       private int zoomPointX;
       private int zoomPointY;
       private boolean zoomIn;
-  
+      private AffineTransform at;
     private char[][] map;
     private ArrayList<ShopItemTiles> tiles;
     private Scanner sc;
@@ -35,7 +37,7 @@ public class Map extends JPanel implements MouseWheelListener{
         } catch (Exception e) {
             System.out.println(e);
         }
-        map = new char[20][40];
+        map = new char[20][50];
         tiles = new ArrayList<ShopItemTiles>();
         for(int i = 0; i < map.length; i++){
             for(int j= 0; j < map[i].length; j++){
@@ -60,7 +62,7 @@ public class Map extends JPanel implements MouseWheelListener{
     }
     public void addToTiles(String name, int i, int j){
         ShopItemTiles s = ShopItemTiles.getShopItem(name);
-        s.setX(j*50);
+        s.setX(j*30);
         s.setY(i*30);
         tiles.add(s);
     }
@@ -69,7 +71,7 @@ public class Map extends JPanel implements MouseWheelListener{
       super.paintComponent(g);
         addMouseWheelListener(this);
         if (zoomer) {
-          AffineTransform at = g2.getTransform();
+          at = g2.getTransform();
           if (zoomIn) {
             at.translate(zoomPointX, zoomPointY);
             at.scale(zoomFactor, zoomFactor);
@@ -109,4 +111,20 @@ public class Map extends JPanel implements MouseWheelListener{
     repaint(); 
   }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keycode = e.getKeyCode();
+
+        if(keycode == KeyEvent.VK_W) {
+            //at.transform(,pointY+10)
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 }

@@ -13,7 +13,7 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
     private JPanel top, center, centerLeft, navBar, itemsList, map, cHou, cFac, cFar, cBas, cSpe;
     private JButton factories, houses, farming, basics, special, back, merchant;
     private CardLayout layout;
-    public EditOptionPanel(){
+    public EditOptionPanel() {
         this.setLayout(new BorderLayout());
 
         back = new JButton(new ImageIcon("back.png"));
@@ -57,26 +57,7 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         
         layout = new CardLayout();
         itemsList = new JPanel(layout);
-        cHou = new JPanel(new GridLayout(ShopItemTiles.getNumHouses()+1, 1));
-        JLabel l = new JLabel("List of Houses", JLabel.CENTER);
-        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
-        cHou.add(l);
-        cFac = new JPanel(new GridLayout(ShopItemTiles.getNumFactories()+1, 1));
-        l = new JLabel("List of Factories", JLabel.CENTER);
-        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
-        cFac.add(l);
-        cFar = new JPanel(new GridLayout(ShopItemTiles.getNumFarms()+1, 1));
-        l = new JLabel("List of Farms", JLabel.CENTER);
-        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
-        cFar.add(l);
-        cBas = new JPanel(new GridLayout(ShopItemTiles.getNumBasics()+1, 1));
-        l = new JLabel("List of Basics", JLabel.CENTER);
-        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
-        cBas.add(l);
-        cSpe = new JPanel(new GridLayout(ShopItemTiles.getNumSpecials()+1, 1));
-        l = new JLabel("List of Specials", JLabel.CENTER);
-        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
-        cSpe.add(l);
+
         makeItemsList();
 
         JScrollPane p = new JScrollPane(cHou);
@@ -105,49 +86,64 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         this.add(center, BorderLayout.CENTER);
     }
     public void makeItemsList(){
+        cHou = new JPanel(new GridLayout(ShopItemTiles.getNumHouses()+1, 1));
+        JLabel l = new JLabel("List of Houses", JLabel.CENTER);
+        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
+        cHou.add(l);
+        cFac = new JPanel(new GridLayout(ShopItemTiles.getNumFactories()+1, 1));
+        l = new JLabel("List of Factories", JLabel.CENTER);
+        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
+        cFac.add(l);
+        cFar = new JPanel(new GridLayout(ShopItemTiles.getNumFarms()+1, 1));
+        l = new JLabel("List of Farms", JLabel.CENTER);
+        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
+        cFar.add(l);
+        cBas = new JPanel(new GridLayout(ShopItemTiles.getNumBasics()+1, 1));
+        l = new JLabel("List of Basics", JLabel.CENTER);
+        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
+        cBas.add(l);
+        cSpe = new JPanel(new GridLayout(ShopItemTiles.getNumSpecials()+1, 1));
+        l = new JLabel("List of Specials", JLabel.CENTER);
+        l.setFont(new Font("Times New Roman", Font.BOLD, 18));
+        cSpe.add(l);
         ArrayList<ArrayList<ShopItemTiles>> inventory = Inventory.getInventory();
+        ArrayList<ArrayList<Integer>> inventoryQuan = Inventory.getInventoryCnt();
         JPanel[] panels = {cHou, cFac, cFar, cBas, cSpe};
         for(int i = 0; i < panels.length; i++){
             JPanel p = panels[i];
             String onPanel = "";
-            for(ShopItemTiles s : inventory.get(i)){
-                if(!onPanel.contains(s.getName()) && !s.isPlaced()){
-                    JPanel panel = new JPanel(null);
+            ArrayList<ShopItemTiles> get = inventory.get(i);
+            for (int j = 0; j < get.size(); j++) {
+                ShopItemTiles s = get.get(j);
+                if (s != null) {
+                    if (!onPanel.contains(s.getName()) && !s.isPlaced()) {
+                        JPanel panel = new JPanel(null);
 
-                    JButton b = new JButton(resizeImg(s.getImg(), 35,35));
-                    Dimension bSize = b.getPreferredSize();
-                    b.setBounds(13+50-(bSize.width/2),45-(bSize.height/2),bSize.width, bSize.height);
-                    defaultButtonSetup(b);
-                    panel.add(s.getName(), b);
+                        JButton b = new JButton(resizeImg(s.getImg(), 35, 35));
+                        Dimension bSize = b.getPreferredSize();
+                        b.setBounds(13 + 50 - (bSize.width / 2), 45 - (bSize.height / 2), bSize.width, bSize.height);
+                        defaultButtonSetup(b);
+                        panel.add(s.getName(), b);
 
-                    JLabel l = new JLabel(Inventory.specificItemCounter(inventory.get(i), s.getName()) + "");
-                    Dimension lSize = l.getPreferredSize();
-                    l.setBounds(13+50-(lSize.width/2),15-(lSize.height/2),lSize.width, lSize.height);
-                    l.setFont(new Font("Times New Roman", Font.BOLD, 12));
-                    panel.add(l);
+                        JLabel label = new JLabel(inventoryQuan.get(i).get(j) + "");
+                        Dimension lSize = label.getPreferredSize();
+                        label.setBounds(13 + 50 - (lSize.width / 2), 15 - (lSize.height / 2), lSize.width, lSize.height);
+                        label.setFont(new Font("Times New Roman", Font.BOLD, 12));
+                        panel.add(label);
 
-                    JLabel background = new JLabel(new ImageIcon("inventoryBox.png"));
-                    Dimension backGSize = background.getPreferredSize();
-                    background.setBounds(13,0,backGSize.width, backGSize.height);
-                    panel.add(background);
+                        JLabel background = new JLabel(new ImageIcon("inventoryBox.png"));
+                        Dimension backGSize = background.getPreferredSize();
+                        background.setBounds(13, 0, backGSize.width, backGSize.height);
+                        panel.add(background);
 
-                    p.add(panel);
-                    onPanel += s.getName();
+                        p.add(panel);
+                        onPanel += s.getName();
+                    }
                 }
             }
         }
-        repaint();
     }
     public void update(){
-        JPanel[] panels = {cHou, cFac, cFar, cBas, cSpe};
-        for(JPanel panel : panels){
-            Component[] components = panel.getComponents();
-            for(Component component : components){
-                panel.remove(component);
-            }
-            panel.revalidate();
-            panel.repaint();
-        }
         makeItemsList();
     }
     public void defaultButtonSetup(JButton b){

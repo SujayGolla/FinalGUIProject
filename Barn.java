@@ -16,10 +16,8 @@ import java.io.FileWriter;
 
 public class Barn extends JPanel implements ActionListener{
     private static JPanel n, c;
-    private static CardLayout layout;
     private static ArrayList <BarnItem> barnItems = new ArrayList <BarnItem>();
     private static ArrayList <Integer> barnQuan = new ArrayList <Integer>();
-    private static int cnt = 0;
     private JButton back;
 
     public Barn(){
@@ -51,12 +49,11 @@ public class Barn extends JPanel implements ActionListener{
                 barnQuan.add(1);
             }
         }
-
+        sc.close();
         makeNorth();
         this.add(n, BorderLayout.NORTH);
         makeCenter();
         this.add(c, BorderLayout.CENTER);
-
     }
 
     public void makeCenter() {
@@ -70,7 +67,6 @@ public class Barn extends JPanel implements ActionListener{
             JLabel b = new JLabel (EditOptionPanel.resizeImg(s.getImg(), 35,35));
             Dimension bSize = b.getPreferredSize();
             b.setBounds(13+50-(bSize.width/2),45-(bSize.height/2),bSize.width, bSize.height);
-            System.out.println(s.getName());
             panel.add(s.getName(), b);
 
             JLabel l = new JLabel(""+barnQuan.get(i));
@@ -120,30 +116,6 @@ public class Barn extends JPanel implements ActionListener{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
     }
-
-    public void displayUnlockedItems(ShopItemTiles s, JPanel panel, int x, int y){
-        JPanel p = new JPanel();
-        p.setLayout(null);
-        Dimension sizeTitle,sizePrice, sizeBuy;
-
-        JLabel title = new JLabel(s.getName());
-        sizeTitle = title.getPreferredSize();
-        title.setFont(new Font("Times New Roman", Font.BOLD, 12));
-        title.setBounds(x+150-(sizeTitle.width / 2),y+30, sizeTitle.width, sizeTitle.height);
-        p.add(title);
-
-        JLabel img = new JLabel(s.getImg());
-        img.setBounds(x+50, y+30+sizeTitle.height+15, 200, 200);
-        p.add(img);
-
-        JLabel box = new JLabel(new ImageIcon("ShopItemDisplayBox.png"));
-        box.setBounds(x,y,300,350);
-        p.add(box);
-
-        p.setBounds(350*cnt++, 0, 350, 400);
-
-        panel.add(p);
-    }
     public void defaultButtonSetup(JButton b){
         b.setBorderPainted(false);
         b.setContentAreaFilled(false);
@@ -154,19 +126,16 @@ public class Barn extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
         JButton b = (JButton) e.getSource();
-        String name = "";
-        if(b.getName() != null)
-            name = b.getName();
 
         if(b == back)
             Cards.flipToCard("Homepage");
     }
 
-    //public static ArrayList<ArrayList<Object>> getBarn() {
-      //  return barn;
-    //}
+    public static ArrayList<BarnItem> getBarn() {
+        return barnItems;
+    }
 
-    public static void addToBarn(BarnItem b) {
+    public void addToBarn(BarnItem b) {
         boolean added = false;
         for (int i = 0; i < barnItems.size(); i++) {
             if (barnItems.get(i).getName().equals(b.getName())) {
@@ -198,18 +167,12 @@ public class Barn extends JPanel implements ActionListener{
         try {
             new FileWriter("barn.txt", false).close();
             gameData = new FileWriter("barn.txt");
-            for (int i = 0; i < barnItems.size(); i++) {
-                gameData.write(fileContent);
-                gameData.write("\n"+b.getName());
-            }
+            gameData.write(fileContent);
+            gameData.write(b.getName());
         }
         catch (Exception e) {
             System.out.println(e);
         }
-
-
+        repaint();
     }
-
-
-
 }

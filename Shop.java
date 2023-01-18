@@ -259,22 +259,10 @@ public class Shop extends JPanel implements ActionListener{
                 for (int j = 0; j < a.length; j++) {
                     ShopItemTiles s = a[j];
                     if (s != null && name.startsWith(s.getName())) {
-                        String category = "";
-                        if (a.equals(housesArray)) {
-                            category = "Houses";
-                        } else if (a.equals(factoriesArray)) {
-                            category = "Factories";
-                        } else if (a.equals(farmsArray)) {
-                            category = "Farms";
-                        } else if (a.equals(basicsArray)) {
-                            category = "Basics";
-                        } else if (a.equals(specialsArray)) {
-                            category = "Specials";
-                        }
                         try {
                             if (s.canBuyItem()) {
                                 s.purchaseItem();
-                                Inventory.addShopItem(s, category);
+                                Inventory.addShopItem(s);
                             }
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);

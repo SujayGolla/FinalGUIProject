@@ -6,7 +6,7 @@ public class BarnItem extends ShopItemTiles{
     private final String factoryName;
     private ShopItemTiles[] requirements;
     private static final int barnItemCnt = 16;
-    private static final BarnItem[][] barn = {{BarnItem.getBarnItem("Bread")}, {BarnItem.getBarnItem("Cow Feed"), BarnItem.getBarnItem("Chicken Feed"), BarnItem.getBarnItem("Sheep Feed")}, {BarnItem.getBarnItem("Cream"), BarnItem.getBarnItem("Cheese"), BarnItem.getBarnItem("Butter")}, {BarnItem.getBarnItem("Cotton Fabric"), BarnItem.getBarnItem("Yarn")}, {BarnItem.getBarnItem("Cheeseburger"), BarnItem.getBarnItem("Sandwich"), BarnItem.getBarnItem("French fries"), BarnItem.getBarnItem("Milkshake")}, {BarnItem.getBarnItem("Milk")}, {BarnItem.getBarnItem("Egg")}, {BarnItem.getBarnItem("Wool")}};
+    private static final BarnItem[][] barn = {{BarnItem.getBarnItem("Bread")}, {BarnItem.getBarnItem("Cow Feed"), BarnItem.getBarnItem("Chicken Feed"), BarnItem.getBarnItem("Sheep Feed")}, {BarnItem.getBarnItem("Cream"), BarnItem.getBarnItem("Cheese"), BarnItem.getBarnItem("Butter")}, {BarnItem.getBarnItem("Cotton Fabric"), BarnItem.getBarnItem("Yarn")}, {BarnItem.getBarnItem("Cheeseburger"), BarnItem.getBarnItem("Sandwich"), BarnItem.getBarnItem("Milkshake"), BarnItem.getBarnItem("French fries")}, {BarnItem.getBarnItem("Milk")}, {BarnItem.getBarnItem("Egg")}, {BarnItem.getBarnItem("Wool")}};
     public BarnItem(String name, ShopItemTiles[] requirements, int val, ImageIcon img, String factoryName){
         super(name, 0, img, null, 0);
         this.val = val;
