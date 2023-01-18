@@ -7,19 +7,23 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
     private BarnItem[] items;
     private Container c;
     private JPanel center;
+    private boolean isProcessing;
     public BasicProductionFrame(String facilityName, BarnItem[] items){
-        this.setSize(500,250);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(500,150);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
         this.facilityName = facilityName;
         this.items = items;
         c = getContentPane();
         c.setLayout(new BorderLayout());
+        isProcessing = false;
 
         JLabel title = new JLabel(facilityName);
         title.setFont(new Font("Times New Roman", Font.BOLD, 14));
-        c.add(title, BorderLayout.NORTH);
+        JPanel p = new JPanel(new FlowLayout());
+        p.add(title);
+        c.add(p, BorderLayout.NORTH);
 
         center = new JPanel(new GridLayout(1, items.length+1));
         makeCenter();
@@ -27,11 +31,11 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
         c.add(scrollPane, BorderLayout.CENTER);
     }
     public void makeCenter(){
-        JLabel blank = new JLabel(new ImageIcon("Untitled(1).png"));
-        blank.setSize(250, 200);
-        center.add(blank);
+//        JLabel blank = new JLabel(EditOptionPanel.resizeImg(new ImageIcon("Untitled(1).png"), 250, 200));
+//        center.add(blank);
 
         for(BarnItem b : items){
+            System.out.println(b.getName());
             JPanel panel = new JPanel(null);
 
             JButton label = new JButton(b.getImg());
@@ -64,5 +68,8 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+    public boolean isProducing(){
+        return isProcessing;
     }
 }

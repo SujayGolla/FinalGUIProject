@@ -109,46 +109,36 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         JPanel[] panels = {cHou, cFac, cFar, cBas, cSpe};
         for(int i = 0; i < panels.length; i++){
             JPanel p = panels[i];
+            p.removeAll();
             String onPanel = "";
             for(ShopItemTiles s : inventory.get(i)){
-                if(!onPanel.contains(s.getName()) && !s.isPlaced()){
-                    JPanel panel = new JPanel(null);
+                if(s != null) {
+                    if (!onPanel.contains(s.getName()) && !s.isPlaced()) {
+                        JPanel panel = new JPanel(null);
 
-                    JButton b = new JButton(resizeImg(s.getImg(), 35,35));
-                    Dimension bSize = b.getPreferredSize();
-                    b.setBounds(13+50-(bSize.width/2),45-(bSize.height/2),bSize.width, bSize.height);
-                    defaultButtonSetup(b);
-                    panel.add(s.getName(), b);
+                        JButton b = new JButton(resizeImg(s.getImg(), 35, 35));
+                        Dimension bSize = b.getPreferredSize();
+                        b.setBounds(13 + 50 - (bSize.width / 2), 45 - (bSize.height / 2), bSize.width, bSize.height);
+                        defaultButtonSetup(b);
+                        panel.add(s.getName(), b);
 
-                    JLabel l = new JLabel(Inventory.specificItemCounter(inventory.get(i), s.getName()) + "");
-                    Dimension lSize = l.getPreferredSize();
-                    l.setBounds(13+50-(lSize.width/2),15-(lSize.height/2),lSize.width, lSize.height);
-                    l.setFont(new Font("Times New Roman", Font.BOLD, 12));
-                    panel.add(l);
+                        JLabel l = new JLabel(Inventory.specificItemCounter(inventory.get(i), s.getName()) + "");
+                        Dimension lSize = l.getPreferredSize();
+                        l.setBounds(13 + 50 - (lSize.width / 2), 15 - (lSize.height / 2), lSize.width, lSize.height);
+                        l.setFont(new Font("Times New Roman", Font.BOLD, 12));
+                        panel.add(l);
 
-                    JLabel background = new JLabel(new ImageIcon("inventoryBox.png"));
-                    Dimension backGSize = background.getPreferredSize();
-                    background.setBounds(13,0,backGSize.width, backGSize.height);
-                    panel.add(background);
+                        JLabel background = new JLabel(new ImageIcon("inventoryBox.png"));
+                        Dimension backGSize = background.getPreferredSize();
+                        background.setBounds(13, 0, backGSize.width, backGSize.height);
+                        panel.add(background);
 
-                    p.add(panel);
-                    onPanel += s.getName();
+                        p.add(panel);
+                        onPanel += s.getName();
+                    }
                 }
             }
         }
-        repaint();
-    }
-    public void update(){
-        JPanel[] panels = {cHou, cFac, cFar, cBas, cSpe};
-        for(JPanel panel : panels){
-            Component[] components = panel.getComponents();
-            for(Component component : components){
-                panel.remove(component);
-            }
-            panel.revalidate();
-            panel.repaint();
-        }
-        makeItemsList();
     }
     public void defaultButtonSetup(JButton b){
         b.setBorderPainted(false);
@@ -185,6 +175,7 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        makeItemsList();
     }
 
     @Override
