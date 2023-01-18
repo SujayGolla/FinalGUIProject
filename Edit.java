@@ -13,12 +13,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
 
-public class Edit extends JPanel implements MouseMotionListener, MouseListener {
+public class Edit extends JPanel implements MouseMotionListener, MouseListener,MouseWheelListener {
     private char[][] map;
     private ArrayList<ShopItemTiles> tiles;
     private Scanner sc;
     private ShopItemTiles currentItem = null;
+
+    private double zoomFactor = 1;
+    private boolean zoomer;
+    private int zoomPointX;
+    private int zoomPointY;
+    private boolean zoomIn;
+
     public Edit(){
         try {
             sc = new Scanner(new File("Map.txt"));
@@ -57,7 +67,23 @@ public class Edit extends JPanel implements MouseMotionListener, MouseListener {
         tiles.add(s);
     }
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+      super.paintComponent(g);
+        addMouseWheelListener(this);
+        if (zoomer) {
+          AffineTransform at = g2.getTransform();
+          if (zoomIn) {
+            at.translate(zoomPointX, zoomPointY);
+            at.scale(zoomFactor, zoomFactor);
+            at.translate(-zoomPointX, -zoomPointY);
+            g2.setTransform(at);
+          }
+          else {
+            at.scale(zoomFactor, zoomFactor);
+            g2.transform(at);
+          }
+          zoomer = false;
+        }
         for(int i = 0; i < tiles.size(); i++){
             tiles.get(i).myDraw(g);
         }
@@ -112,4 +138,23 @@ public class Edit extends JPanel implements MouseMotionListener, MouseListener {
     public void mouseMoved(MouseEvent e) {
 
     }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        zoomPointX = e.getX();
+        zoomPointY = e.getY();
+        zoomer = true;
+        //Zoom in
+        if (e.getWheelRotation() < 0) {
+          zoomIn = true;
+          if (zoomFactor < 1.45)
+            zoomFactor += 0.05;
+        }
+        else {
+          zoomIn = false;
+          if (zoomFactor > 0.65)
+            zoomFactor -= 0.05;
+        }
+        repaint();
+  }
 }

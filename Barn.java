@@ -136,33 +136,6 @@ public class Barn extends JPanel implements ActionListener{
         img.setBounds(x+50, y+30+sizeTitle.height+15, 200, 200);
         p.add(img);
 
-        JLabel price = new JLabel(s.getPrice() + "", new ImageIcon("shopCoin.png"), JLabel.CENTER);
-        price.setFont(new Font("Times New Roman", Font.BOLD, 18));
-        sizePrice = price.getPreferredSize();
-        price.setBounds(x+75-(sizePrice.width / 2), y+30+sizeTitle.height+15+200-5+((y+350 - (y+30+sizeTitle.height+15+200-5))/2)-(sizePrice.height/2), sizePrice.width, sizePrice.height);
-        p.add(price);
-
-        if(HouseItem.isHouse(s.getName())){
-            JLabel numPpl = new JLabel("+" + s.getPpl(),new ImageIcon("shopPopulation.png"), JLabel.CENTER);
-            numPpl.setFont(new Font("Times New Roman", Font.BOLD, 14));
-            Dimension sizeNumPpl = numPpl.getPreferredSize();
-            numPpl.setBounds(x+150-(sizeNumPpl.width / 2), y+30+sizeTitle.height+15+200-5+((y+350 - (y+30+sizeTitle.height+15+200-5))/2)-(sizePrice.height/2), sizeNumPpl.width, sizeNumPpl.height);
-            p.add(numPpl);
-        } else if(FactoryItem.isFactory(s.getName()) || FarmItem.isFarm(s.getName())){
-            JLabel reqPpl = new JLabel("Needs " + s.getReqPpl(),new ImageIcon("shopPopulation.png"), JLabel.CENTER);
-            reqPpl.setFont(new Font("Times New Roman", Font.BOLD, 8));
-            Dimension sizeReqPpl = reqPpl.getPreferredSize();
-            reqPpl.setBounds(x+150-(sizeReqPpl.width / 2)-5, y+30+sizeTitle.height+15+200-5+((y+350 - (y+30+sizeTitle.height+15+200-5))/2)-(sizePrice.height/2), sizeReqPpl.width, sizeReqPpl.height);
-            p.add(reqPpl);
-        }
-
-        JButton buy = new JButton(new ImageIcon("buy.png"));
-        buy.setName(s.getName() + " Buy");
-        defaultButtonSetup(buy);
-        sizeBuy = buy.getPreferredSize();
-        buy.setBounds(x+225-(sizeBuy.width / 2), y+30+sizeTitle.height+15+200-5+((y+350 - (y+30+sizeTitle.height+15+200-5))/2)-(sizeBuy.height/2), sizeBuy.width, sizeBuy.height);
-        p.add(buy);
-
         JLabel box = new JLabel(new ImageIcon("ShopItemDisplayBox.png"));
         box.setBounds(x,y,300,350);
         p.add(box);
