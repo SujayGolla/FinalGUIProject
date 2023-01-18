@@ -60,7 +60,7 @@ public class Map extends JPanel implements MouseWheelListener{
     }
     public void addToTiles(String name, int i, int j){
         ShopItemTiles s = ShopItemTiles.getShopItem(name);
-        s.setX(j*30);
+        s.setX(j*50);
         s.setY(i*30);
         tiles.add(s);
     }
@@ -103,7 +103,7 @@ public class Map extends JPanel implements MouseWheelListener{
     }
     else {
       zoomIn = false;
-      if (zoomFactor > 0.85)
+      if (zoomFactor > 0.50)
         zoomFactor -= 0.05;
     }
     repaint(); 
