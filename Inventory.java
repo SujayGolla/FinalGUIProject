@@ -142,19 +142,19 @@ public class Inventory {
             array.add(ShopItemTiles.getShopItem(s.getName()));
             arrayQuan.add(1);
         }
-        Scanner sc = null;
 
+        String fileContent = "";
         try {
-            sc = new Scanner(new File("Inventory.txt"));
+            Scanner sc = new Scanner(new File("Inventory.txt"));
+            fileContent = "";
+            while(sc.hasNextLine()) {
+                fileContent += sc.nextLine() + "\n";
+            }
+            sc.close();
         }
         catch (Exception e) {
             System.out.println(e);
         }
-        String fileContent = "";
-        while(sc.hasNextLine()) {
-            fileContent += sc.nextLine() + "\n";
-        }
-        sc.close();
 
         FileWriter gameData = null;
 
@@ -164,12 +164,14 @@ public class Inventory {
             gameData.write(fileContent);
             gameData.write(s.getName());
             gameData.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
     public static ArrayList<ArrayList<ShopItemTiles>> getInventory(){
         return inventory;
+    }
+    public static ArrayList<ArrayList<Integer>> getInventoryCnt(){
+        return inventoryCnt;
     }
 }
