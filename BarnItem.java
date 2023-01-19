@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class BarnItem extends ShopItemTiles{
-    private final int val;
+    private static int val;
     private final String factoryName;
     private ShopItemTiles[] requirements;
     private static final int barnItemCnt = 16;
@@ -79,5 +79,9 @@ public class BarnItem extends ShopItemTiles{
 
     public ShopItemTiles[] getRequirements() {
         return requirements;
+    }
+
+    public static int getValue() {
+        return val;
     }
 }

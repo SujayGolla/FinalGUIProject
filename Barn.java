@@ -25,6 +25,9 @@ public class Barn extends JPanel implements ActionListener{
         this.setLayout(new BorderLayout());
         this.setBackground(Color.GRAY);
 
+        barnItems.clear();
+        barnQuan.clear();
+
         Scanner sc = null;
         try {
             sc = new Scanner(new File("barn.txt"));
@@ -174,5 +177,9 @@ public class Barn extends JPanel implements ActionListener{
             System.out.println(e);
         }
         repaint();
+    }
+
+    public static ArrayList<BarnItem> getBarnItems() {
+        return barnItems;
     }
 }
