@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class FarmItem extends ShopItemTiles {
     private int reqPpl;
-    private final int size = 60;
+    private final int size = 30;
     private static final String farms = "Cowshed, Chicken Coop, Sheep Farm";
     public FarmItem(String name, int price, ImageIcon img, ImageIcon[] animations, int unlockLVL, int reqPpl) {
         super(name, price, img, animations, unlockLVL);

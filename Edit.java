@@ -17,12 +17,13 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 
-public class Edit extends JPanel implements MouseMotionListener, MouseListener,MouseWheelListener {
+public class Edit extends JPanel implements MouseMotionListener, MouseListener, MouseWheelListener {
     private char[][] map;
     private ArrayList<ShopItemTiles> tiles;
     private Scanner sc;
     private ShopItemTiles currentItem = null;
-
+    private int xCnt = 30;
+    private int yCnt = 30;
     private double zoomFactor = 1;
     private boolean zoomer;
     private int zoomPointX;
@@ -35,7 +36,7 @@ public class Edit extends JPanel implements MouseMotionListener, MouseListener,M
         } catch (FileNotFoundException e) {
             System.out.println(e);
         }
-        map = new char[20][40];
+        map = new char[20][50];
         tiles = new ArrayList<ShopItemTiles>();
         for(int i = 0; i < map.length; i++){
             for(int j= 0; j < map[i].length; j++){
@@ -156,5 +157,27 @@ public class Edit extends JPanel implements MouseMotionListener, MouseListener,M
             zoomFactor -= 0.05;
         }
         repaint();
-  }
+    }
+    public void addToMap(ShopItemTiles s){
+        boolean isPlaced = false;
+        while(!isPlaced) {
+            boolean hasTileInitialLocation = false;
+            for (int i = 0; i < tiles.size(); i++) {
+                if (tiles.get(i).getX() == xCnt && tiles.get(i).getY() == yCnt && !tiles.get(i).isSpecialTile()) {
+                    hasTileInitialLocation = true;
+                    xCnt += 30;
+                    yCnt += 30;
+                    break;
+                }
+            }
+            if (!hasTileInitialLocation){
+                s.setX(xCnt);
+                s.setY(yCnt);
+                tiles.add(s);
+                isPlaced = true;
+            }
+        }
+        xCnt = 180;
+        yCnt = 180;
+    }
 }
