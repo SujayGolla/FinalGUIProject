@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Shop extends JPanel implements ActionListener{
@@ -17,7 +18,7 @@ public class Shop extends JPanel implements ActionListener{
     private final ShopItemTiles[] housesArray = {ShopItemTiles.getShopItem("Bungalow"), ShopItemTiles.getShopItem("Townhouse"), ShopItemTiles.getShopItem("Apartment"), ShopItemTiles.getShopItem("Condos")};
     private final ShopItemTiles[] factoriesArray = {ShopItemTiles.getShopItem("Feed Mill"), ShopItemTiles.getShopItem("Dairy Production"), ShopItemTiles.getShopItem("Textile Production"), ShopItemTiles.getShopItem("Bakery"), ShopItemTiles.getShopItem("Fast Food Restaurant")};
     private final ShopItemTiles[] farmsArray = {ShopItemTiles.getShopItem("Field"), ShopItemTiles.getShopItem("Cowshed"), ShopItemTiles.getShopItem("Chicken Coop"), ShopItemTiles.getShopItem("Sheep Farm")};
-    private final ShopItemTiles[] cropsArray = {ShopItemTiles.getShopItem("Wheat"), ShopItemTiles.getShopItem("Carrot"), ShopItemTiles.getShopItem("Corn"), ShopItemTiles.getShopItem("Tomatoes"), ShopItemTiles.getShopItem("Rice"), ShopItemTiles.getShopItem("Apples"), ShopItemTiles.getShopItem("Strawberry"), ShopItemTiles.getShopItem("Cotton")};
+    private final ShopItemTiles[] cropsArray = {ShopItemTiles.getShopItem("Wheat"), ShopItemTiles.getShopItem("Carrot"), ShopItemTiles.getShopItem("Corn"), ShopItemTiles.getShopItem("Potatoes"), ShopItemTiles.getShopItem("Tomatoes"), ShopItemTiles.getShopItem("Rice"), ShopItemTiles.getShopItem("Apples"), ShopItemTiles.getShopItem("Strawberry"), ShopItemTiles.getShopItem("Cotton")};
     private final ShopItemTiles[] basicsArray = {ShopItemTiles.getShopItem("Roads"), ShopItemTiles.getShopItem("Gravel"), ShopItemTiles.getShopItem("Tiles")};
     private final ShopItemTiles[] specialsArray = {ShopItemTiles.getShopItem("Barn"), ShopItemTiles.getShopItem("Townhall"), ShopItemTiles.getShopItem("Fountain")};
     private final ShopItemTiles[][] shop = {housesArray, factoriesArray, farmsArray, cropsArray, basicsArray, specialsArray};
@@ -258,14 +259,16 @@ public class Shop extends JPanel implements ActionListener{
                 ShopItemTiles[] a = shop[i];
                 for (int j = 0; j < a.length; j++) {
                     ShopItemTiles s = a[j];
-                    if (s != null && name.startsWith(s.getName())) {
-                        try {
-                            if (s.canBuyItem()) {
+                    if(s != null) {
+                        if (name.startsWith(s.getName())) {
+                            try {
                                 s.purchaseItem();
-                                Inventory.addShopItem(s);
+                                if (s.canBuyItem()) {
+                                    Inventory.addShopItem(s);
+                                }
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
                             }
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
                         }
                     }
                 }
