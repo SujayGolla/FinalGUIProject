@@ -10,9 +10,13 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class EditOptionPanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
-    private JPanel top, center, centerLeft, navBar, itemsList, map, cHou, cFac, cFar, cBas, cSpe;
+    private JPanel top, center, centerLeft, navBar, itemsList, cHou, cFac, cFar, cBas, cSpe;
     private JButton factories, houses, farming, basics, special, back, merchant;
     private CardLayout layout;
+    private Edit map;
+    private ArrayList<ArrayList<ShopItemTiles>> inventory = Inventory.getInventory();
+    private ArrayList<ArrayList<Integer>> inventoryQuan = Inventory.getInventoryCnt();
+    private ShopItemTiles currentItem;
     public EditOptionPanel() {
         this.setLayout(new BorderLayout());
 
@@ -106,8 +110,8 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         l = new JLabel("List of Specials", JLabel.CENTER);
         l.setFont(new Font("Times New Roman", Font.BOLD, 18));
         cSpe.add(l);
-        ArrayList<ArrayList<ShopItemTiles>> inventory = Inventory.getInventory();
-        ArrayList<ArrayList<Integer>> inventoryQuan = Inventory.getInventoryCnt();
+        inventory = Inventory.getInventory();
+        inventoryQuan = Inventory.getInventoryCnt();
         JPanel[] panels = {cHou, cFac, cFar, cBas, cSpe};
         for(int i = 0; i < panels.length; i++){
             JPanel p = panels[i];
@@ -123,7 +127,8 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
                         Dimension bSize = b.getPreferredSize();
                         b.setBounds(13 + 50 - (bSize.width / 2), 45 - (bSize.height / 2), bSize.width, bSize.height);
                         defaultButtonSetup(b);
-                        panel.add(s.getName(), b);
+                        b.setName(s.getName() + " Selected");
+                        panel.add(b);
 
                         JLabel label = new JLabel(inventoryQuan.get(i).get(j) + "");
                         Dimension lSize = label.getPreferredSize();
@@ -170,6 +175,18 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
             centerFlipToCard("Specials");
         else if (b == merchant)
             Cards.flipToCard("Merchant");
+
+        String name = "";
+        if(b.getName() != null){
+            name = b.getName();
+        }
+        for(ArrayList<ShopItemTiles> a : inventory){
+            for(ShopItemTiles s : a){
+                if(name.contains(s.getName())){
+                    map.addToMap(s);
+                }
+            }
+        }
     }
     public void centerFlipToCard(String ID){
         layout.show(itemsList, ID);

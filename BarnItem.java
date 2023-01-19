@@ -37,7 +37,7 @@ public class BarnItem extends ShopItemTiles{
         } else if (name.equals("Sandwich")) {
             return new BarnItem("Sandwich", new ShopItemTiles[]{BarnItem.getBarnItem("Bread"), BarnItem.getBarnItem("Butter"), ShopItemTiles.getShopItem("Strawberry"), ShopItemTiles.getShopItem("Strawberry")}, 20, new ImageIcon("Sandwich.png"), "Fast Food Restaurant");
         } else if (name.equals("French fries")) {
-            return new BarnItem("French fries", new ShopItemTiles[]{ShopItemTiles.getShopItem("Potato"), ShopItemTiles.getShopItem("Potato"), BarnItem.getBarnItem("Cream")}, 20, new ImageIcon("French_fries.png"), "Fast Food Restaurant");
+            return new BarnItem("French fries", new ShopItemTiles[]{ShopItemTiles.getShopItem("Potatoes"), ShopItemTiles.getShopItem("Potatoes"), BarnItem.getBarnItem("Cream")}, 20, new ImageIcon("French_fries.png"), "Fast Food Restaurant");
         } else if (name.equals("Milkshake")) {
             return new BarnItem("Milkshake", new ShopItemTiles[]{BarnItem.getBarnItem("Milk"), BarnItem.getBarnItem("Milk"), ShopItemTiles.getShopItem("Strawberry")}, 20, new ImageIcon("Milkshake.png"), "Fast Food Restaurant");
         } else if (name.equals("Milk")) {
