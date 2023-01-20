@@ -6,30 +6,30 @@ Teacher: Ms.Strelkovska
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.geom.AffineTransform;
-
 
 
 public class Map extends JPanel implements MouseWheelListener, KeyListener {
   
       private double zoomFactor = 1;
-      private boolean zoomer;
-      private int zoomPointX;
-      private int zoomPointY;
-      private boolean zoomIn;
-      private AffineTransform at;
-    private char[][] map;
+      private boolean zoomer, translater;
+      private char[][] map;
+
+      private int XCoord = 0, YCoord = 0;
+
+
     private ArrayList<ShopItemTiles> tiles;
     private Scanner sc;
     private ShopItemTiles currentItem = null;
+
     public Map(){
+
+        addKeyListener(this);
+        addMouseWheelListener(this);
+        this.setFocusable(true);
         try {
             sc = new Scanner(new File("Map.txt"));
             new Inventory();
@@ -37,7 +37,7 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         } catch (Exception e) {
             System.out.println(e);
         }
-        map = new char[20][50];
+        map = new char[20][61];
         tiles = new ArrayList<ShopItemTiles>();
         for(int i = 0; i < map.length; i++){
             for(int j= 0; j < map[i].length; j++){
@@ -69,22 +69,17 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
     public void paintComponent(Graphics g){
       Graphics2D g2 = (Graphics2D) g;
       super.paintComponent(g);
-        addMouseWheelListener(this);
+
         if (zoomer) {
-          at = g2.getTransform();
-          if (zoomIn) {
-            at.translate(zoomPointX, zoomPointY);
-            at.scale(zoomFactor, zoomFactor);
-            at.translate(-zoomPointX, -zoomPointY);
-            g2.setTransform(at);
-          }
-          else {
-            at.scale(zoomFactor, zoomFactor);
-            g2.transform(at);
-          }
-          zoomer = false;
+            g2.scale(zoomFactor, zoomFactor);
+            zoomer = false;
         }
-      
+
+        if (translater) {
+            g2.translate(XCoord, YCoord);
+            translater = false;
+        }
+
         for(int i = 0; i < tiles.size(); i++){
             tiles.get(i).myDraw(g);
         }
@@ -94,21 +89,17 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
 
   @Override
   public void mouseWheelMoved(MouseWheelEvent e) {
-    zoomPointX = e.getX();
-    zoomPointY = e.getY();
     zoomer = true;
     //Zoom in
     if (e.getWheelRotation() < 0) {
-      zoomIn = true;
       if (zoomFactor < 1.45)
         zoomFactor += 0.05;
     }
     else {
-      zoomIn = false;
-      if (zoomFactor > 0.50)
+      if (zoomFactor > 0.55)
         zoomFactor -= 0.05;
     }
-    repaint(); 
+    repaint();
   }
 
     @Override
@@ -117,14 +108,45 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int keycode = e.getKeyCode();
-
-        if(keycode == KeyEvent.VK_W) {
-            //at.transform(,pointY+10)
+        int keyCode = e.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_W:
+                System.out.println("up");
+                translater = true;
+                YCoord += 10;
+                break;
+            case KeyEvent.VK_S:
+                System.out.println("down");
+                translater = true;
+                YCoord -= 10;
+                break;
+            case KeyEvent.VK_A:
+                System.out.println("left");
+                translater = true;
+                XCoord += 10;
+                break;
+            case KeyEvent.VK_D:
+                System.out.println("right");
+                translater = true;
+                XCoord -= 10;
+                break;
+            case KeyEvent.VK_PLUS:
+                System.out.println("in");
+                zoomer = true;
+                if (zoomFactor < 1.45)
+                    zoomFactor += 0.05;
+                break;
+            case KeyEvent.VK_MINUS:
+                System.out.println("out");
+                zoomer = true;
+                if (zoomFactor > 0.55)
+                    zoomFactor -= 0.05;
+                break;
         }
+        repaint();
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
     }
+
 }
