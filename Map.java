@@ -67,7 +67,8 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         tiles.add(s);
     }
     public void paintComponent(Graphics g){
-      Graphics2D g2 = (Graphics2D) g;
+      requestFocusInWindow();
+        Graphics2D g2 = (Graphics2D) g;
       super.paintComponent(g);
 
         if (zoomer) {

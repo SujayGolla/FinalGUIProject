@@ -17,6 +17,7 @@ public class Cards extends JFrame{
     static Merchant me;
     static Production f;
     static Barn b;
+    static String currentPanelFocus = "MainMenu";
 
     public Cards() throws Exception{
         c = getContentPane();
@@ -41,8 +42,6 @@ public class Cards extends JFrame{
     }
 
     public static void flipToCard(String cardID){
-        if(cardID.equals("Inventory"))
-            iP.update();
         layout.show(c, cardID);
     }
 }

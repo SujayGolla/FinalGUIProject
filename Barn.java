@@ -55,40 +55,29 @@ public class Barn extends JPanel implements ActionListener{
         sc.close();
         makeNorth();
         this.add(n, BorderLayout.NORTH);
-        makeCenter();
+        c = new JPanel(null);
         this.add(c, BorderLayout.CENTER);
     }
 
-    public void makeCenter() {
-        c = new JPanel();
-        c.setLayout(new GridLayout(2,8,10,10));
+    public void makeCenter(Graphics g) {
+        int xCnt = 22;
+        int yCnt = 40;
+        int cnt = 0;
+        int row = 1;
         for (int i = 0; i < barnItems.size(); i++) {
-
             BarnItem s = barnItems.get(i);
-            JPanel panel = new JPanel(null);
-
-            JLabel b = new JLabel (EditOptionPanel.resizeImg(s.getImg(), 35,35));
-            Dimension bSize = b.getPreferredSize();
-            b.setBounds(13+50-(bSize.width/2),45-(bSize.height/2),bSize.width, bSize.height);
-            panel.add(s.getName(), b);
-
-            JLabel l = new JLabel(""+barnQuan.get(i));
-            Dimension lSize = l.getPreferredSize();
-            l.setBounds(13+50-(lSize.width/2),15-(lSize.height/2),lSize.width, lSize.height);
-            l.setFont(new Font("Times New Roman", Font.BOLD, 12));
-            panel.add(l);
-
-            JLabel background = new JLabel(new ImageIcon("inventoryBox.png"));
-            Dimension backGSize = background.getPreferredSize();
-            background.setBounds(13,0,backGSize.width, backGSize.height);
-            panel.add(background);
-
-            c.add(panel);
+            g.drawImage(new ImageIcon("barnBox.png").getImage(), xCnt + ((i * 50) + (i * xCnt)), yCnt * row + 15, null);
+            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + ((i * 50) + (i * xCnt)) + 5, yCnt * row + 15 + 5, null);
+            g.drawString("" + barnQuan.get(i), xCnt + ((i * 50) + (i * xCnt)) + 5 + 35 + 10, yCnt * row + 15 + 5 + 10);
+            cnt++;
+            if(cnt % 8 == 0) {
+                row += 1;
+                xCnt = 22;
+                yCnt += 90;
+            } else {
+                xCnt += 22 + 100;
+            }
         }
-        for (int i = 0; i < BarnItem.getBarnCnt()-barnItems.size(); i++) {
-            c.add(new JLabel(new ImageIcon ("Untitled(2).png")));
-        }
-
     }
 
     public void makeNorth(){
@@ -118,6 +107,7 @@ public class Barn extends JPanel implements ActionListener{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        makeCenter(g);
     }
     public void defaultButtonSetup(JButton b){
         b.setBorderPainted(false);
