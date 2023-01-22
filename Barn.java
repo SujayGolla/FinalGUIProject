@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class Barn extends JPanel implements ActionListener{
-    private static JPanel n, c;
+    private static JPanel s, c;
     private static ArrayList <BarnItem> barnItems = new ArrayList <BarnItem>();
     private static ArrayList <Integer> barnQuan = new ArrayList <Integer>();
     private JButton back;
@@ -53,9 +53,12 @@ public class Barn extends JPanel implements ActionListener{
             }
         }
         sc.close();
-        makeNorth();
-        this.add(n, BorderLayout.NORTH);
-        c = new JPanel(null);
+        makeSouth();
+        this.add(s, BorderLayout.SOUTH);
+        c = new JPanel();
+        JLabel l = new JLabel(new ImageIcon("Untitled(3).png"));
+        l.setBounds(0,0,1,100);
+        c.add(l);
         this.add(c, BorderLayout.CENTER);
     }
 
@@ -80,29 +83,25 @@ public class Barn extends JPanel implements ActionListener{
         }
     }
 
-    public void makeNorth(){
+    public void makeSouth(){
         back = new JButton(new ImageIcon("back.png"));
         defaultButtonSetup(back);
 
-        n = new JPanel();
-        n.setLayout(new BorderLayout());
-        n.setBackground(Color.GRAY);
-        JPanel titleN = new JPanel();
-        titleN.setLayout(new GridLayout(1,9));
-        titleN.setBackground(Color.LIGHT_GRAY);
+        s = new JPanel();
+        s.setLayout(new GridLayout(1,9));
+        s.setBackground(Color.LIGHT_GRAY);
 
-        n.add(titleN, BorderLayout.NORTH);
         JLabel title = new JLabel("  Barn");
         title.setFont(new Font("Times New Roman", Font.BOLD, 30));
-        titleN.add(back);
-        titleN.add(new JLabel(""));
-        titleN.add(new JLabel(""));
-        titleN.add(new JLabel(""));
-        titleN.add(title);
-        titleN.add(new JLabel(""));
-        titleN.add(new JLabel(""));
-        titleN.add(new JLabel(""));
-        titleN.add(new JLabel(""));
+        s.add(back);
+        s.add(new JLabel(""));
+        s.add(new JLabel(""));
+        s.add(new JLabel(""));
+        s.add(title);
+        s.add(new JLabel(""));
+        s.add(new JLabel(""));
+        s.add(new JLabel(""));
+        s.add(new JLabel(""));
     }
 
     public void paintComponent(Graphics g){
@@ -171,5 +170,38 @@ public class Barn extends JPanel implements ActionListener{
 
     public static ArrayList<BarnItem> getBarnItems() {
         return barnItems;
+    }
+    public void removeBarnItem(BarnItem b) {
+        for (int i = 0; i < barnItems.size(); i++) {
+            if (barnItems.get(i).getName().equals(b.getName())) {
+                barnQuan.set(i,barnQuan.get(i)-1);
+            }
+        }
+
+        Scanner sc = null;
+
+        try {
+            sc = new Scanner(new File("barn.txt"));
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        String fileContent = "";
+        while(sc.hasNextLine()) {
+            fileContent += sc.nextLine() + "\n";
+        }
+
+        FileWriter gameData = null;
+
+        try {
+            new FileWriter("barn.txt", false).close();
+            gameData = new FileWriter("barn.txt");
+            gameData.write(fileContent);
+            gameData.write(b.getName());
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        repaint();
     }
 }

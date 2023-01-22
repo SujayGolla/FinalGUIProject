@@ -92,24 +92,6 @@ public class Inventory {
         }
         sc.close();
     }
-    public static int specificItemCounter(ArrayList<ShopItemTiles> a, String name){
-        int cnt = 0;
-        for (int i = 0; i < a.size(); i++) {
-            ShopItemTiles s = a.get(i);
-            if (name.equals(s.getName())) {
-                cnt++;
-            }
-        }
-        return cnt;
-    }
-    public static int specificItemCounter(ShopItemTiles[] a, String name){
-        int cnt = 0;
-        for(int i = 0; i < a.length; i++){
-            if(a[i].getName().equals(name))
-                cnt++;
-        }
-        return cnt;
-    }
     public static void addShopItem(ShopItemTiles s) {
         boolean added = false;
         ArrayList<ShopItemTiles> array = null;

@@ -8,25 +8,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Map extends JPanel implements MouseWheelListener, KeyListener {
   
-      private double zoomFactor = 1;
-      private boolean zoomer, translater;
-      private char[][] map;
+      protected double zoomFactor = 1;
+      protected boolean zoomer, translater;
+      protected char[][] map;
 
-      private int XCoord = 0, YCoord = 0;
+      protected int xCoord = 0, yCoord = 0;
 
 
-    private ArrayList<ShopItemTiles> tiles;
-    private Scanner sc;
-    private ShopItemTiles currentItem = null;
+    protected static ArrayList<ShopItemTiles> tiles;
+    protected static ArrayList<ShopItemTiles> items;
+    protected Scanner sc;
 
     public Map(){
-
         addKeyListener(this);
         addMouseWheelListener(this);
         this.setFocusable(true);
@@ -51,13 +53,46 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
                 }
             }
         }
-        ArrayList<ArrayList<ShopItemTiles>> inventory = Inventory.getInventory();
-        for(ArrayList<ShopItemTiles> a : inventory){
-            for(ShopItemTiles s : a){
-                if(s.getX() != -1 && s.getY() != -1){
-                    tiles.add(s);
+        sc.close();
+        try {
+            sc = new Scanner(new File("MapItems.txt"));
+            items = new ArrayList<ShopItemTiles>();
+            while(sc.hasNextLine()){
+                String line = sc.nextLine();
+                int cnt = 0;
+                for(int i = 0; i < 252; i++) {
+                    String nextL = "";
+                    if(sc.hasNextLine())
+                        nextL = sc.nextLine();
+                    if(!nextL.equals(line))
+                        break;
+                }
+                String name = line.substring(0, line.indexOf("="));
+                name = name.replace('_', ' ');
+                int x = Integer.parseInt(line.substring(line.indexOf("=") + 1, line.indexOf(",")));
+                int y = Integer.parseInt(line.substring(line.indexOf(",") + 1));
+                ShopItemTiles s = ShopItemTiles.getShopItem(name);
+                if (!s.isSpecialTile()) {
+                    s.setX(x);
+                    s.setY(y);
+                    items.add(s);
                 }
             }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void saveMap() {
+        try {
+            new FileWriter("MapItems.txt", false).close();
+            FileWriter gameData = new FileWriter("MapItems.txt");
+            for(int i = 0; i < items.size(); i++){
+                gameData.write(items.get(i).getName().replace(' ', '_') + "=" + items.get(i).getX() + "," + items.get(i).getY()+"\n");
+            }
+            gameData.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     public void addToTiles(String name, int i, int j){
@@ -67,27 +102,31 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         tiles.add(s);
     }
     public void paintComponent(Graphics g){
-      requestFocusInWindow();
+        requestFocusInWindow();
         Graphics2D g2 = (Graphics2D) g;
-      super.paintComponent(g);
+        super.paintComponent(g);
+        saveMap();
+
 
         if (zoomer) {
             g2.scale(zoomFactor, zoomFactor);
+            g2.translate(xCoord, yCoord);
             zoomer = false;
         }
 
         if (translater) {
-            g2.translate(XCoord, YCoord);
+            g2.translate(xCoord, yCoord);
+            g2.scale(zoomFactor, zoomFactor);
             translater = false;
         }
 
         for(int i = 0; i < tiles.size(); i++){
             tiles.get(i).myDraw(g);
         }
-        if(currentItem != null)
-            currentItem.myDraw(g);
+        for(int i = 0; i < items.size(); i++){
+            items.get(i).myDraw(g);
+        }
     }
-
   @Override
   public void mouseWheelMoved(MouseWheelEvent e) {
     zoomer = true;
@@ -97,7 +136,7 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         zoomFactor += 0.05;
     }
     else {
-      if (zoomFactor > 0.55)
+      if (zoomFactor > 1)
         zoomFactor -= 0.05;
     }
     repaint();
@@ -112,33 +151,31 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             case KeyEvent.VK_W:
-                System.out.println("up");
                 translater = true;
-                YCoord += 10;
+                if(yCoord + 10 <= 0)
+                    yCoord += 10;
                 break;
             case KeyEvent.VK_S:
-                System.out.println("down");
                 translater = true;
-                YCoord -= 10;
+                if(yCoord - 10 >= -200)
+                    yCoord -= 10;
                 break;
             case KeyEvent.VK_A:
-                System.out.println("left");
                 translater = true;
-                XCoord += 10;
+                if(xCoord + 10 <= 0)
+                    xCoord += 10;
                 break;
             case KeyEvent.VK_D:
-                System.out.println("right");
                 translater = true;
-                XCoord -= 10;
+                if(xCoord - 10 >= -830)
+                    xCoord -= 10;
                 break;
             case KeyEvent.VK_PLUS:
-                System.out.println("in");
                 zoomer = true;
                 if (zoomFactor < 1.45)
                     zoomFactor += 0.05;
                 break;
             case KeyEvent.VK_MINUS:
-                System.out.println("out");
                 zoomer = true;
                 if (zoomFactor > 0.55)
                     zoomFactor -= 0.05;
@@ -149,5 +186,4 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
     }
-
 }
