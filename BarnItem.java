@@ -84,4 +84,26 @@ public class BarnItem extends ShopItemTiles{
     public static int getValue() {
         return val;
     }
+
+    public void sellItem(BarnItem b) throws Exception {
+        if(hasItem(b)) {
+            Game.setCoins(Game.getCoins() + price);
+            if(price > 0)
+                Game.setXp(Game.getXp() + 10);
+            JOptionPane.showMessageDialog(Cards.c, "You successfully sold the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            if (!hasItem(b))
+                JOptionPane.showMessageDialog(Cards.c, "You don't have that item.", "Can't sell", JOptionPane.WARNING_MESSAGE);
+        }
+        Game.update();
+    }
+
+    public static boolean hasItem(BarnItem b) {
+        for (int i = 0; i < Barn.getBarnItems().size(); i++) {
+            if (b.getName().equals(Barn.getBarnItems().get(i)))
+                return true;
+        }
+        return false;
+    }
+
 }

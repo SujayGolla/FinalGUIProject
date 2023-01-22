@@ -84,16 +84,16 @@ public class Merchant extends JPanel  implements ActionListener{
     box.setBounds(x,y,300,350);
     p.add(box);
 
-    JButton sell = new JButton(new ImageIcon("sell.png"));
-    sell.setName(s.getName() + " Sell");
-    sell.setBorderPainted(false);
-    sell.setContentAreaFilled(false);
-    sell.setOpaque(false);
-    sell.setFocusable(false);
-    sell.addActionListener(this);
-    sizeSell = sell.getPreferredSize();
-    sell.setBounds(x+225-(sizeSell.width / 2), y+30+sizeTitle.height+15+200-5+((y+350 - (y+30+sizeTitle.height+15+200-5))/2)-(sizeSell.height/2), sizeSell.width, sizeSell.height);
-    p.add(sell);
+      JButton sell = new JButton(new ImageIcon("sell.png"));
+      sell.setName(s.getName() + " Sell");
+      sell.setBorderPainted(false);
+      sell.setContentAreaFilled(false);
+      sell.setOpaque(false);
+      sell.setFocusable(false);
+      sell.addActionListener(this);
+      sizeSell = sell.getPreferredSize();
+      sell.setBounds(x+225-(sizeSell.width / 2), y+30+sizeTitle.height+15+200-5+((y+350 - (y+30+sizeTitle.height+15+200-5))/2)-(sizeSell.height/2), sizeSell.width, sizeSell.height);
+      p.add(sell);
 
     p.setBounds(350*cnt++, 0, 350, 400);
     center.add(p);
@@ -110,6 +110,23 @@ public class Merchant extends JPanel  implements ActionListener{
 
         if(b == back)
             Cards.flipToCard("Homepage");
+        else {
+            for (int i = 0; i < Barn.getBarnItems().size(); i++) {
+                BarnItem a = Barn.getBarnItems().get(i);
+                    if(a != null) {
+                        if (name.startsWith(a.getName())) {
+                            try {
+                                a.sellItem(a);
+                                if (BarnItem.hasItem(a)) {
+                                    new Barn().removeBarnItem(a);
+                                }
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        }
+                    }
+                }
+            }
         }
 }
 
