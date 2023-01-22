@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class Shop extends JPanel implements ActionListener{
     private JPanel n, c;
-    private JButton factories, houses, farming, basics, special, crops, back;
+    private JButton factories, houses, farming, basics, special, crops, back, merchant;
     private CardLayout layout;
     private final ShopItemTiles[] housesArray = {ShopItemTiles.getShopItem("Bungalow"), ShopItemTiles.getShopItem("Townhouse"), ShopItemTiles.getShopItem("Apartment"), ShopItemTiles.getShopItem("Condos")};
     private final ShopItemTiles[] factoriesArray = {ShopItemTiles.getShopItem("Feed Mill"), ShopItemTiles.getShopItem("Dairy Production"), ShopItemTiles.getShopItem("Textile Production"), ShopItemTiles.getShopItem("Bakery"), ShopItemTiles.getShopItem("Fast Food Restaurant")};
@@ -46,6 +46,8 @@ public class Shop extends JPanel implements ActionListener{
         defaultButtonSetup(crops);
         back = new JButton(new ImageIcon("back.png"));
         defaultButtonSetup(back);
+        merchant = new JButton(new ImageIcon("Merchant.png"));
+        defaultButtonSetup(merchant);
 
         JPanel navBar = new JPanel();
         navBar.setLayout(new GridLayout(1,8));
@@ -70,7 +72,7 @@ public class Shop extends JPanel implements ActionListener{
         titleN.add(new JLabel(""));
 
         n.add(navBar, BorderLayout.CENTER);
-        navBar.add(new JLabel(""));
+        navBar.add(merchant);
         navBar.add(houses);
         navBar.add(factories);
         navBar.add(farming);
@@ -254,6 +256,8 @@ public class Shop extends JPanel implements ActionListener{
             centerFlipToCard("Specials");
         else if(b == crops)
             centerFlipToCard("Crops");
+        else if(b == merchant)
+            Cards.flipToCard("Merchant");
         else {
             for (int i = 0; i < shop.length; i++) {
                 ShopItemTiles[] a = shop[i];

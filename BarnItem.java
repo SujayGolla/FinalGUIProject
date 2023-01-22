@@ -12,6 +12,12 @@ public class BarnItem extends ShopItemTiles{
         this.val = val;
         this.factoryName = factoryName;
         this.requirements = requirements;
+
+        try {
+            new Game();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     public static BarnItem getBarnItem(String name){
         if (name.equals("Bread")) {
@@ -85,22 +91,21 @@ public class BarnItem extends ShopItemTiles{
         return val;
     }
 
-    public void sellItem(BarnItem b) throws Exception {
-        if(hasItem(b)) {
-            Game.setCoins(Game.getCoins() + price);
-            if(price > 0)
+    public void sellItem() throws Exception {
+        if(hasItem()) {
+            Game.setCoins(Game.getCoins() + val);
+            if(val > 0)
                 Game.setXp(Game.getXp() + 10);
             JOptionPane.showMessageDialog(Cards.c, "You successfully sold the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         } else {
-            if (!hasItem(b))
                 JOptionPane.showMessageDialog(Cards.c, "You don't have that item.", "Can't sell", JOptionPane.WARNING_MESSAGE);
         }
         Game.update();
     }
 
-    public static boolean hasItem(BarnItem b) {
-        for (int i = 0; i < Barn.getBarnItems().size(); i++) {
-            if (b.getName().equals(Barn.getBarnItems().get(i)))
+    public boolean hasItem() {
+        for (int i = 0; i < Barn.getBarn().size(); i++) {
+            if (name.equals(Barn.getBarn().get(i).getName()))
                 return true;
         }
         return false;
