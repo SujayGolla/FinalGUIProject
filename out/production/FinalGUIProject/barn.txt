@@ -1,3 +1,6 @@
 Bread
 Egg
 Bread
+Milk
+Milk
+Egg
