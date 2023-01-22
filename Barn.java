@@ -40,7 +40,7 @@ public class Barn extends JPanel implements ActionListener{
             boolean added = false;
             String name = sc.nextLine();
             for (int i = 0; i < barnItems.size(); i++) {
-                if (barnItems.get(i).getName().equals(name)) {
+                if (barnItems.get(i).getName().equals(name.replace('_', ' '))) {
                     barnQuan.set(i,barnQuan.get(i)+1);
                     added = true;
                 }
@@ -48,7 +48,7 @@ public class Barn extends JPanel implements ActionListener{
 
 
             if (!added) {
-                barnItems.add(BarnItem.getBarnItem(name));
+                barnItems.add(BarnItem.getBarnItem(name.replace('_', ' ')));
                 barnQuan.add(1);
             }
         }
@@ -59,26 +59,35 @@ public class Barn extends JPanel implements ActionListener{
         JLabel l = new JLabel(new ImageIcon("Untitled(3).png"));
         l.setBounds(0,0,1,100);
         c.add(l);
-        this.add(c, BorderLayout.CENTER);
+        this.add(c, BorderLayout.NORTH);
+
+        Thread thread = new Thread(() -> {
+            while(true){
+                repaint();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        thread.start();
     }
 
     public void makeCenter(Graphics g) {
         int xCnt = 22;
         int yCnt = 40;
         int cnt = 0;
-        int row = 1;
         for (int i = 0; i < barnItems.size(); i++) {
             BarnItem s = barnItems.get(i);
-            g.drawImage(new ImageIcon("barnBox.png").getImage(), xCnt + ((i * 50) + (i * xCnt)), yCnt * row + 15, null);
-            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + ((i * 50) + (i * xCnt)) + 5, yCnt * row + 15 + 5, null);
-            g.drawString("" + barnQuan.get(i), xCnt + ((i * 50) + (i * xCnt)) + 5 + 35 + 10, yCnt * row + 15 + 5 + 10);
+            g.drawImage(new ImageIcon("barnBox.png").getImage(), xCnt, yCnt + 15, null);
+            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + 5, yCnt + 15 + 5, null);
+            g.drawString("" + barnQuan.get(i), xCnt + 5 + 35 + 10, yCnt + 15 + 5 + 10);
             cnt++;
-            if(cnt % 8 == 0) {
-                row += 1;
+            xCnt += 100 + 10;
+            if(cnt%8 == 0) {
                 xCnt = 22;
-                yCnt += 90;
-            } else {
-                xCnt += 22 + 100;
+                yCnt += 70 + 10;
             }
         }
     }

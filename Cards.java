@@ -43,5 +43,10 @@ public class Cards extends JFrame{
 
     public static void flipToCard(String cardID){
         layout.show(c, cardID);
+        currentPanelFocus = cardID;
+    }
+
+    public static String getCurrentPanelFocus() {
+        return currentPanelFocus;
     }
 }

@@ -33,9 +33,15 @@ public class Edit extends Map implements MouseMotionListener, MouseListener, Mou
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        repaint();
         for(int i = 0; i < tiles.size(); i++){
-            if(tiles.get(i).isOnTile(e.getX(), e.getY()) && currentItem != null && !currentItem.isSpecialTile() && !tiles.get(i).isSpecialTile()) {
-                currentItem.replaceTile(tiles.get(i));
+            for(int j = 0; j < items.size(); j++) {
+                if (tiles.get(i).isOnTile(e.getX(), e.getY()) && currentItem != null && !currentItem.isSpecialTile() && !tiles.get(i).isSpecialTile() && items.get(i).isOnTile(e.getX(), e.getY())) {
+                    int x = (int)(Math.round(tiles.get(i).getX() / 30.0));
+                    int y = (int)(Math.round(tiles.get(i).getY() / 30.0));
+                    currentItem.setX(x*30);
+                    currentItem.setY(y*30);
+                }
             }
         }
         repaint();

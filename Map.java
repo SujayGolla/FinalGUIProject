@@ -72,11 +72,9 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
                 int x = Integer.parseInt(line.substring(line.indexOf("=") + 1, line.indexOf(",")));
                 int y = Integer.parseInt(line.substring(line.indexOf(",") + 1));
                 ShopItemTiles s = ShopItemTiles.getShopItem(name);
-                if (!s.isSpecialTile()) {
-                    s.setX(x);
-                    s.setY(y);
-                    items.add(s);
-                }
+                s.setX(x);
+                s.setY(y);
+                items.add(s);
             }
             sc.close();
         } catch (FileNotFoundException e) {

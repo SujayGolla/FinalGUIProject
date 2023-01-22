@@ -42,7 +42,7 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         JLabel title = new JLabel("       Edit");
         title.setFont(new Font("Times New Roman", Font.BOLD, 24));
         bottom.add(back);
-        bottom.add(new JLabel(new ImageIcon("Untitled.png")));
+        bottom.add(new JLabel(new ImageIcon("Untitled(3).png")));
         bottom.add(title);
         bottom.add(new JLabel(""));
         bottom.add(reset);
@@ -52,6 +52,18 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         this.add(bottom, BorderLayout.SOUTH);
         addMouseListener(this);
         addMouseMotionListener(this);
+
+        Thread thread = new Thread(() -> {
+            while(true){
+                repaint();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        thread.start();
     }
     public void makeTopInventory(Graphics gr){
         imgCoordinates = new ArrayList<Integer>();
