@@ -81,8 +81,9 @@ public class Barn extends JPanel implements ActionListener{
         for (int i = 0; i < barnItems.size(); i++) {
             BarnItem s = barnItems.get(i);
             g.drawImage(new ImageIcon("barnBox.png").getImage(), xCnt, yCnt + 15, null);
-            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + 5, yCnt + 15 + 5, null);
-            g.drawString("" + barnQuan.get(i), xCnt + 5 + 35 + 10, yCnt + 15 + 5 + 10);
+            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + 15, yCnt + 27 + 5, null);
+            g.setFont(new Font("Times New Roman", Font.BOLD, 18));
+            g.drawString("" + barnQuan.get(i), xCnt + 15 + 35 + 15, yCnt + 40 + 5 + 10);
             cnt++;
             xCnt += 100 + 10;
             if(cnt%8 == 0) {
@@ -136,7 +137,7 @@ public class Barn extends JPanel implements ActionListener{
         return barnItems;
     }
 
-    public void addToBarn(BarnItem b) {
+    public static void addToBarn(BarnItem b) {
         boolean added = false;
         for (int i = 0; i < barnItems.size(); i++) {
             if (barnItems.get(i).getName().equals(b.getName())) {
@@ -150,67 +151,47 @@ public class Barn extends JPanel implements ActionListener{
             barnQuan.add(1);
         }
 
-        Scanner sc = null;
-
-        try {
-            sc = new Scanner(new File("barn.txt"));
-         }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        String fileContent = "";
-        while(sc.hasNextLine()) {
-            fileContent += sc.nextLine() + "\n";
-        }
-
         FileWriter gameData = null;
 
         try {
             new FileWriter("barn.txt", false).close();
             gameData = new FileWriter("barn.txt");
-            gameData.write(fileContent);
-            gameData.write(b.getName());
+            for (int i = 0; i < barnItems.size(); i++){
+                for(int j = 0; j < barnQuan.get(i); j++) {
+                    gameData.write(barnItems.get(i).getName() + "\n");
+                }
+            }
+            gameData.close();
         }
         catch (Exception e) {
             System.out.println(e);
         }
-        repaint();
     }
 
-    public static ArrayList<BarnItem> getBarnItems() {
-        return barnItems;
+    public static ArrayList<Integer> getBarnQuan() {
+        return barnQuan;
     }
-    public void removeBarnItem(BarnItem b) {
+    public static void removeBarnItem(BarnItem b) {
         for (int i = 0; i < barnItems.size(); i++) {
             if (barnItems.get(i).getName().equals(b.getName())) {
                 barnQuan.set(i,barnQuan.get(i)-1);
             }
         }
 
-        Scanner sc = null;
-
-        try {
-            sc = new Scanner(new File("barn.txt"));
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        String fileContent = "";
-        while(sc.hasNextLine()) {
-            fileContent += sc.nextLine() + "\n";
-        }
-
         FileWriter gameData = null;
 
         try {
             new FileWriter("barn.txt", false).close();
             gameData = new FileWriter("barn.txt");
-            gameData.write(fileContent);
-            gameData.write(b.getName());
+            for (int i = 0; i < barnItems.size(); i++){
+                for(int j = 0; j < barnQuan.get(i); j++) {
+                    gameData.write(barnItems.get(i).getName() + "\n");
+                }
+            }
+            gameData.close();
         }
         catch (Exception e) {
             System.out.println(e);
         }
-        repaint();
     }
 }

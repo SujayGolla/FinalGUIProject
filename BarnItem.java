@@ -92,23 +92,21 @@ public class BarnItem extends ShopItemTiles{
     }
 
     public void sellItem() throws Exception {
-        if(hasItem()) {
+        if(canSell()) {
             Game.setCoins(Game.getCoins() + val);
-            if(val > 0)
-                Game.setXp(Game.getXp() + 10);
+            Game.setXp(Game.getXp() + 10);
             JOptionPane.showMessageDialog(Cards.c, "You successfully sold the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         } else {
-                JOptionPane.showMessageDialog(Cards.c, "You don't have that item.", "Can't sell", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(Cards.c, "You don't have that item.", "Can't sell", JOptionPane.WARNING_MESSAGE);
         }
         Game.update();
     }
 
-    public boolean hasItem() {
+    public boolean canSell() {
         for (int i = 0; i < Barn.getBarn().size(); i++) {
-            if (name.equals(Barn.getBarn().get(i).getName()))
+            if (name.equals(Barn.getBarn().get(i).getName()) && Barn.getBarnQuan().get(i) >= 1)
                 return true;
         }
         return false;
     }
-
 }

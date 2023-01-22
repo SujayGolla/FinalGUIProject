@@ -32,28 +32,36 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
         c.add(scrollPane, BorderLayout.CENTER);
     }
     public void makeCenter(){
-        JLabel blank = new JLabel(EditOptionPanel.resizeImg(new ImageIcon("Untitled(1).png"), 200, 200));
-        center.add(blank);
+        if(items.length > 2) {
+            JLabel blank = new JLabel(EditOptionPanel.resizeImg(new ImageIcon("Untitled(1).png"), 205, 220));
+            center.add(blank);
+        }
 
         for(BarnItem b : items){
-            System.out.println(b.getName());
-            JPanel panel = new JPanel(null);
-
-            JButton label = new JButton(EditOptionPanel.resizeImg(b.getImg(), 75,75));
-
-            label.setBorderPainted(false);
-            label.setContentAreaFilled(false);
-            label.setOpaque(false);
-            label.setFocusable(false);
-            label.addActionListener(this);
-            label.setBounds(30, 30, 75,75);
-            panel.add(b.getName(), label);
-
             ShopItemTiles[] requirements = b.getRequirements();
 
             ArrayList<String> names = new ArrayList<String>();
             ArrayList <Integer> quantity = new ArrayList<Integer>();
 
+            JPanel panel = new JPanel(null);
+
+            JButton label = new JButton(EditOptionPanel.resizeImg(b.getImg(), 75,75));
+            label.setName(b.getName());
+            label.setBorderPainted(false);
+            label.setContentAreaFilled(false);
+            label.setOpaque(false);
+            label.setFocusable(false);
+            label.addActionListener(this);
+            label.setBounds(100-37, 30, 75,75);
+            panel.add(label);
+
+            JLabel jl = new JLabel("Requirements:");
+            jl.setFont(new Font("Times New Roman", Font.BOLD, 10));
+            Dimension size = jl.getPreferredSize();
+            jl.setBounds(100-(size.width/2),125,size.width,size.height);
+            panel.add(jl);
+
+            int xCnt = 30;
             for(ShopItemTiles s : requirements){
                 boolean added = false;
 
@@ -70,20 +78,11 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
                     quantity.add(1);
                 }
 
-                JLabel l = new JLabel(quantity.get(names.indexOf(s.getName())) + "");
-                l.setIcon(EditOptionPanel.resizeImg(s.getImg(), 30, 30));
-                l.setFont(new Font("Times New Roman", Font.BOLD, 8));
+                JLabel l = new JLabel(EditOptionPanel.resizeImg(s.getImg(), 30, 30));
+                l.setBounds(xCnt,140, 30, 30);
                 panel.add(l);
+                xCnt += 40;
             }
-
-//            JButton produce = new JButton(new ImageIcon("produce.png"));
-//            produce.setBorderPainted(false);
-//            produce.setContentAreaFilled(false);
-//            produce.setOpaque(false);
-//            produce.setFocusable(false);
-//            produce.addActionListener(this);
-
-//            p.add(produce);
 
 
             JLabel background = new JLabel(new ImageIcon("productionBox.png"));
@@ -96,7 +95,17 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        JButton b = (JButton) e.getSource();
+        String name = "";
+        if(b.getName() != null)
+            name = b.getName();
+        for(int i = 0; i < items.length; i++){
+            if(items[i].getName().equals(name)){
+                JOptionPane.showMessageDialog(Cards.c, "Item successfully added to Barn!", "Success!", JOptionPane.PLAIN_MESSAGE);
+                Barn.addToBarn(BarnItem.getBarnItem(items[i].getName()));
+                break;
+            }
+        }
     }
     public boolean isProducing(){
         return isProcessing;

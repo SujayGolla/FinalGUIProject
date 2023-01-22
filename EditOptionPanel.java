@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class EditOptionPanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+public class EditOptionPanel extends JPanel implements ActionListener, MouseListener {
     private JPanel top, bottom;
     private JButton back, reset;
     private Edit map;
@@ -51,23 +51,12 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         this.add(top, BorderLayout.NORTH);
         this.add(bottom, BorderLayout.SOUTH);
         addMouseListener(this);
-        addMouseMotionListener(this);
-
-        Thread thread = new Thread(() -> {
-            while(true){
-                repaint();
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        thread.start();
     }
     public void makeTopInventory(Graphics gr){
         imgCoordinates = new ArrayList<Integer>();
         itemTiles = new ArrayList<ShopItemTiles>();
+        inventory = Inventory.getInventory();
+        inventoryQuan = Inventory.getInventoryCnt();
 
         int xCnt = 5;
         String displayed = "";
@@ -159,16 +148,6 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
 
     @Override
     public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
 
     }
 }

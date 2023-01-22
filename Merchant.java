@@ -143,14 +143,13 @@ public class Merchant extends JPanel  implements ActionListener{
         if(b == back)
             Cards.flipToCard("Homepage");
         else {
-            ArrayList<BarnItem> copyOfBarnItems = new ArrayList<>(Barn.getBarn());
-            for (BarnItem a : copyOfBarnItems) {
+            for (BarnItem a : Barn.getBarn()) {
                 if (a != null) {
                     if (name.startsWith(a.getName())) {
                         try {
                             a.sellItem();
-                            if (a.hasItem()) {
-                               new Barn().removeBarnItem(a);
+                            if (a.canSell()) {
+                               Barn.removeBarnItem(a);
                             }
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);

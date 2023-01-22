@@ -28,6 +28,12 @@ public class Inventory {
     private static ArrayList<ArrayList<Integer>> inventoryCnt = new ArrayList<ArrayList<Integer>>();
 
     public Inventory() {
+        readFileUpdates();
+    }
+    public static void readFileUpdates(){
+        inventory.clear();
+        inventoryCnt.clear();
+
         houses = new ArrayList<ShopItemTiles>();
         inventory.add(houses);
         factories = new ArrayList<ShopItemTiles>();
@@ -151,6 +157,7 @@ public class Inventory {
         }
     }
     public static ArrayList<ArrayList<ShopItemTiles>> getInventory(){
+        readFileUpdates();
         return inventory;
     }
     public static ArrayList<ArrayList<Integer>> getInventoryCnt(){
