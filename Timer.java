@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import java.awt.*;
@@ -8,31 +10,17 @@ public class Timer {
     private long timePassed;
     private long secondsPassed;
     private long minutes;
-    private JLabel time;
-    private boolean startTimer;
-    private long previousTimePassed;
-
+    private boolean isRunning;
     public Timer() throws InterruptedException{
 
-        if (startTimer) {
+        if (isRunning) {
             minutes = 0;
             startTime = System.currentTimeMillis();
 
-            while(previousTimePassed/1000 + timePassed/1000 != 300) {
+            while(timePassed/1000 != 300) {
                 TimeUnit.SECONDS.sleep(1);
-                timePassed = System.currentTimeMillis() - startTime;
-                secondsPassed = timePassed/1000;
-
-                if (secondsPassed == 60) {
-                    startTime = System.currentTimeMillis();
-                    secondsPassed = 0;
-                }
-
-                if (secondsPassed % 60 == 0)
-                    minutes++;
+                
             }
-
-            time = new JLabel(minutes+":"+secondsPassed);
         }
     }
 
@@ -42,19 +30,40 @@ public class Timer {
     }
 
     public void startTimer() {
-        startTimer = true;
+
+        isRunning = true;
     }
 
     public void pauseTimer() {
-        setTimePassed();
-        this.previousTimePassed = timePassed;
-        startTimer = false;
+
+        isRunning = false;
+
+    }
+    
+    public String getTime() {
+        timePassed = System.currentTimeMillis() - startTime;
+        secondsPassed = timePassed/1000;
+
+        if (secondsPassed == 60) {
+            startTime = System.currentTimeMillis();
+            secondsPassed = 0;
+        }
+
+        if (secondsPassed % 60 == 0)
+            minutes++;
+
+        return minutes+":"+secondsPassed;
     }
 
-    public void setTimePassed() {
-        if (startTimer) {
-            this.timePassed = System.currentTimeMillis() - startTime + previousTimePassed;
-        }
+    public boolean ifRunning() {
+        return isRunning;
     }
+
+    public void saveTime(String fileName) throws IOException {
+        FileWriter writer = new FileWriter(fileName);
+        writer.write(getTime());
+        writer.close();
+    }
+
 
 }
