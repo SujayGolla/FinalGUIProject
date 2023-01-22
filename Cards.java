@@ -19,6 +19,10 @@ public class Cards extends JFrame{
     static Barn b;
     static String currentPanelFocus = "MainMenu";
 
+    static Instructions1 ins;
+    static Instructions2 ins2;
+    static Instructions3 ins3;
+
     public Cards() throws Exception{
         c = getContentPane();
         layout = new CardLayout();
@@ -31,6 +35,9 @@ public class Cards extends JFrame{
         me = new Merchant();
         f = new Production();
         b = new Barn();
+        ins = new Instructions1();
+        ins2 = new Instructions2();
+        ins3 = new Instructions3();
 
         c.add("MainMenu", m);
         c.add("Homepage", h);
@@ -39,6 +46,9 @@ public class Cards extends JFrame{
         c.add("Merchant", me);
         c.add("Production", f);
         c.add("Barn",b);
+        c.add("Instructions1", ins);
+        c.add("Instructions2", ins2);
+        c.add("Instructions3", ins3);
     }
 
     public static void flipToCard(String cardID){

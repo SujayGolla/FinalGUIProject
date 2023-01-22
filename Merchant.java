@@ -18,7 +18,11 @@ public class Merchant extends JPanel  implements ActionListener{
     private JPanel top, center;
     private JButton back;
 
-    public Merchant() {
+    private TimerClass time;
+
+    private JLabel timer;
+
+    public Merchant() throws InterruptedException {
         this.setLayout(new BorderLayout());
 
         new Barn();
@@ -32,13 +36,12 @@ public class Merchant extends JPanel  implements ActionListener{
 
         center = new JPanel(new GridLayout(1,2));
 
-        random = (int) (Math.random()*Barn.getBarn().size());
+        random = (int) (Math.random() * Barn.getBarn().size());
         if (Barn.getBarn().size() > 0) {
             item1 = Barn.getBarn().get(random);
             displaySellableItem(item1, 50, 50);
-        }
-        else {
-           noItems(50,50);
+        } else {
+            noItems(50, 50);
         }
 
         if (Barn.getBarn().size() > 1) {
@@ -50,11 +53,14 @@ public class Merchant extends JPanel  implements ActionListener{
             while (item1.getName().equals(item2.getName()));
 
             displaySellableItem(item2, 50, 50);
+        } else {
+            noItems(50, 50);
         }
 
-        else {
-            noItems(50,50);
-        }
+        time = new TimerClass(center);
+        time.startTime();
+        timer = new JLabel(time.getTimer());
+        center.add(timer);
 
         this.add(center, BorderLayout.CENTER);
 

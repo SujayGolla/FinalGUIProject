@@ -54,7 +54,7 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
                 break;
             case KeyEvent.VK_S:
                 translater = true;
-                if(yCoord - 10 >= -200)
+                if(yCoord - 10 >= -280)
                     yCoord -= 10;
                 break;
             case KeyEvent.VK_A:
