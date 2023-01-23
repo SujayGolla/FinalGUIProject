@@ -209,18 +209,22 @@ public class Inventory {
     }
 
     public static ArrayList<Integer> getFactoriesCnt() {
+        readFileUpdates();
         return factoriesCnt;
     }
 
     public static ArrayList<ShopItemTiles> getFactories() {
+        readFileUpdates();
         return factories;
     }
 
     public static ArrayList<ShopItemTiles> getFarms() {
+        readFileUpdates();
         return farms;
     }
 
     public static ArrayList<Integer> getFarmsCnt() {
+        readFileUpdates();
         return farmsCnt;
     }
 }
