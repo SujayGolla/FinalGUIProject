@@ -1,6 +1,10 @@
 Bread
-Egg
 Bread
-Milk
-Milk
+Bread
+Bread
+Bread
+Bread
 Egg
+Egg
+Cow Feed
+Milkshake
