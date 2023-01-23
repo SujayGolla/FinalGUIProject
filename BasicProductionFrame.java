@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.function.IntUnaryOperator;
 
 public class BasicProductionFrame extends JFrame implements ActionListener {
     private String facilityName;
@@ -125,14 +126,109 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
         for (int i = 0; i < items.length; i++) {
             if (items[i].getName().equals(name)) {
                 // if the item is selected, add it to the barn
-                JOptionPane.showMessageDialog(Cards.c, "Item successfully added to Barn!", "Success!", JOptionPane.PLAIN_MESSAGE);
-                Barn.addToBarn(BarnItem.getBarnItem(items[i].getName()));
-                break;
+                if(canProduceItem(items[i])) {
+                    JOptionPane.showMessageDialog(Cards.c, "Item successfully added to Barn!", "Success!", JOptionPane.PLAIN_MESSAGE);
+                    produceItem(items[i]);
+                    break;
+                }
+                else {
+                    JOptionPane.showMessageDialog(Cards.c, "You don't have the required items", "Sorry!", JOptionPane.PLAIN_MESSAGE);
+                    break;
+                }
             }
         }
     }
+    public boolean canProduceItem(BarnItem b){
+        ShopItemTiles[] requirements = b.getRequirements();
+        ArrayList<BarnItem> barn = Barn.getBarn();
+        ArrayList<Integer> barnCnt = Barn.getBarnQuan();
+        ArrayList<ShopItemTiles> crops = Inventory.getCrops();
+        ArrayList<Integer> cropsCnt = Inventory.getCropsCnt();
+        ArrayList<ShopItemTiles> itemsReq = new ArrayList<ShopItemTiles>();
+        ArrayList<Integer> quanReq = new ArrayList<Integer>();
+        for (int i = 0; i < requirements.length; i++){
+            boolean added = false;
+            for(int j = 0; j < itemsReq.size(); j++){
+                if(itemsReq.get(j).getName().equals(requirements[i].getName())){
+                    quanReq.set(j, quanReq.get(j) + 1);
+                    added = true;
+                    break;
+                }
+            }
+            if(!added){
+                itemsReq.add(requirements[i]);
+                quanReq.add(1);
+            }
+        }
+        for (int i = 0; i < itemsReq.size(); i++){
+            int reqQuan = quanReq.get(i);
+            boolean found = false;
+            if(itemsReq.get(i).isBarnItem()){
+                for(int j = 0; j < barn.size(); j++){
+                    if(itemsReq.get(i).getName().equals(barn.get(j).getName())){
+                        found = true;
+                        if(barnCnt.get(j) - reqQuan < 0){
+                            return false;
+                        }
+                    }
+                }
+            } else{
+                for(int j = 0; j < crops.size(); j++){
+                    if(itemsReq.get(i).getName().equals(crops.get(j).getName())){
+                        found = true;
+                        if(cropsCnt.get(j) - reqQuan < 0){
+                            return false;
+                        }
+                    }
+                }
+            }
+            if(!found)
+                return false;
+        }
+        return true;
+    }
 
-    public boolean isProducing() {
-        return isProcessing;
+    public void produceItem(BarnItem b){
+        ShopItemTiles[] requirements = b.getRequirements();
+        ArrayList<BarnItem> barn = Barn.getBarn();
+        ArrayList<Integer> barnCnt = Barn.getBarnQuan();
+        ArrayList<ShopItemTiles> crops = Inventory.getCrops();
+        ArrayList<Integer> cropsCnt = Inventory.getCropsCnt();
+        ArrayList<ShopItemTiles> itemsReq = new ArrayList<ShopItemTiles>();
+        ArrayList<Integer> quanReq = new ArrayList<Integer>();
+        for (int i = 0; i < requirements.length; i++){
+            boolean added = false;
+            for(int j = 0; j < itemsReq.size(); j++){
+                if(itemsReq.get(j).getName().equals(requirements[i].getName())){
+                    quanReq.set(j, quanReq.get(j) + 1);
+                    added = true;
+                    break;
+                }
+            }
+            if(!added){
+                itemsReq.add(requirements[i]);
+                quanReq.add(1);
+            }
+        }
+        for (int i = 0; i < itemsReq.size(); i++){
+            int reqQuan = quanReq.get(i);
+            if(itemsReq.get(i).isBarnItem()){
+                for(int j = 0; j < barn.size(); j++){
+                    if(itemsReq.get(i).getName().equals(barn.get(j).getName())){
+                        barnCnt.set(j, barnCnt.get(j) - reqQuan);
+                        break;
+                    }
+                }
+            } else{
+                for(int j = 0; j < crops.size(); j++){
+                    if(itemsReq.get(i).getName().equals(crops.get(j).getName())){
+                        cropsCnt.set(j, cropsCnt.get(j) - reqQuan);
+                        break;
+                    }
+                }
+            }
+        }
+        Inventory.update();
+        Barn.addToBarn(BarnItem.getBarnItem(b.getName()));
     }
 }

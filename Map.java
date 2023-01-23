@@ -21,7 +21,6 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
       protected double zoomFactor = 1;
       protected boolean zoomer, translater;
       protected char[][] map;
-
       protected int xCoord = 0, yCoord = 0;
 
 
@@ -35,7 +34,6 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         this.setFocusable(true); // makes the game detect key pressing
         try {
             sc = new Scanner(new File("Map.txt")); // reading the txt to make the default map
-            new Inventory();
             new Game();
         } catch (Exception e) {
             System.out.println(e);
@@ -55,32 +53,47 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
             }
         }
         sc.close();
+        makeItems();
+    }
+    public void makeItems(){
+        items = new ArrayList<ShopItemTiles>();
+        ArrayList<ArrayList<ShopItemTiles>> inventory = Inventory.getInventory();
+        ArrayList<ArrayList<Integer>> inventoryQuan = Inventory.getInventoryCnt();
+        for (int i = 0; i < inventory.size(); i++){
+            for (int j = 0; j < inventory.get(i).size(); j++){
+                for(int k = 0; k < inventoryQuan.get(i).get(j); k++) {
+                    items.add(ShopItemTiles.getShopItem(inventory.get(i).get(j).getName()));
+                }
+            }
+        }
+
         try {
             sc = new Scanner(new File("MapItems.txt"));
-            items = new ArrayList<ShopItemTiles>();
             while(sc.hasNextLine()){
                 String line = sc.nextLine();
-                int cnt = 0;
-                for(int i = 0; i < 252; i++) {
-                    String nextL = "";
-                    if(sc.hasNextLine())
-                        nextL = sc.nextLine();
-                    if(!nextL.equals(line))
-                        break;
-                }
                 String name = line.substring(0, line.indexOf("="));
                 name = name.replace('_', ' ');
                 int x = Integer.parseInt(line.substring(line.indexOf("=") + 1, line.indexOf(",")));
                 int y = Integer.parseInt(line.substring(line.indexOf(",") + 1));
-                ShopItemTiles s = ShopItemTiles.getShopItem(name);
-                s.setX(x);
-                s.setY(y);
-                items.add(s);
+                for (int i = 0; i < items.size(); i++){
+                    if(name.equals(items.get(i).getName()) && !items.get(i).isPlaced()){
+                        items.get(i).setX(x);
+                        items.get(i).setY(y);
+                    }
+                }
             }
             sc.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+    }
+    public boolean nothingOnTile(ShopItemTiles s){
+        for(int i = 0; i < items.size(); i++){
+            if(s.isOnTile(items.get(i).getX(), items.get(i).getY()))
+                return false;
+        }
+        return true;
     }
     public void saveMap() {
         try {
@@ -125,7 +138,8 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
             tiles.get(i).myDraw(g);
         }
         for(int i = 0; i < items.size(); i++){
-            items.get(i).myDraw(g);
+            if(items.get(i).isPlaced())
+                items.get(i).myDraw(g);
         }
     }
   @Override

@@ -24,6 +24,8 @@ public class Inventory {
     private static ArrayList<Integer> basicsCnt;
     private static ArrayList<ShopItemTiles> specials;
     private static ArrayList<Integer> specialsCnt;
+    private static ArrayList<ShopItemTiles> crops;
+    private static ArrayList<Integer> cropsCnt;
     private static ArrayList<ArrayList<ShopItemTiles>> inventory = new ArrayList<ArrayList<ShopItemTiles>>();
     private static ArrayList<ArrayList<Integer>> inventoryCnt = new ArrayList<ArrayList<Integer>>();
 
@@ -34,6 +36,7 @@ public class Inventory {
         inventory.clear();
         inventoryCnt.clear();
 
+        crops = new ArrayList<ShopItemTiles>();
         houses = new ArrayList<ShopItemTiles>();
         inventory.add(houses);
         factories = new ArrayList<ShopItemTiles>();
@@ -45,6 +48,7 @@ public class Inventory {
         specials = new ArrayList<ShopItemTiles>();
         inventory.add(specials);
 
+        cropsCnt = new ArrayList<Integer>();
         housesCnt = new ArrayList<Integer>();
         inventoryCnt.add(housesCnt);
         factoriesCnt = new ArrayList<Integer>();
@@ -82,6 +86,9 @@ public class Inventory {
             } else if (ShopItemTiles.getSpecialsNames().contains(name)){
                 array = specials;
                 arrayQuan = specialsCnt;
+            } else if (ShopItemTiles.getCropsNames().contains(name)){
+                array = crops;
+                arrayQuan = cropsCnt;
             }
             for (int i = 0; i < array.size(); i++) {
                 if(array.get(i) != null) {
@@ -117,6 +124,9 @@ public class Inventory {
         } else if (ShopItemTiles.getSpecialsNames().contains(s.getName())){
             array = specials;
             arrayQuan = specialsCnt;
+        } else if (ShopItemTiles.getCropsNames().contains(s.getName())){
+            array = crops;
+            arrayQuan = cropsCnt;
         }
         for (int i = 0; i < array.size(); i++) {
             if(array.get(i) != null) {
@@ -161,6 +171,40 @@ public class Inventory {
         return inventory;
     }
     public static ArrayList<ArrayList<Integer>> getInventoryCnt(){
+        readFileUpdates();
         return inventoryCnt;
+    }
+
+    public static ArrayList<ShopItemTiles> getCrops() {
+        readFileUpdates();
+        return crops;
+    }
+
+    public static ArrayList<Integer> getCropsCnt() {
+        readFileUpdates();
+        return cropsCnt;
+    }
+
+    public static void update(){
+        FileWriter gameData = null;
+        try {
+            new FileWriter("Inventory.txt", false).close();
+            gameData = new FileWriter("Inventory.txt");
+            for (int i = 0; i < inventory.size(); i++){
+                for (int j = 0; j < inventory.get(i).size(); j++){
+                    for(int k = 0; k < inventoryCnt.get(i).get(j); k++){
+                        gameData.write(inventory.get(i).get(j).getName() + "\n");
+                    }
+                }
+            }
+            for (int i = 0; i < crops.size(); i++){
+                for (int j = 0; j < cropsCnt.get(i); j++){
+                    gameData.write(crops.get(i).getName() + "\n");
+                }
+            }
+            gameData.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

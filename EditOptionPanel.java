@@ -15,8 +15,8 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
     private Edit map;
     private ArrayList<ArrayList<ShopItemTiles>> inventory;
     private ArrayList<ArrayList<Integer>> inventoryQuan;
-    private ArrayList<Integer> imgCoordinates = new ArrayList<Integer>();
-    private ArrayList<ShopItemTiles> itemTiles = new ArrayList<ShopItemTiles>();
+    private ArrayList<Integer> imgCoordinates;
+    private ArrayList<String> imgNames;
     public EditOptionPanel(){
         new Inventory();
         inventory = Inventory.getInventory();
@@ -54,24 +54,20 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
     }
     public void makeTopInventory(Graphics gr){
         imgCoordinates = new ArrayList<Integer>();
-        itemTiles = new ArrayList<ShopItemTiles>();
+        imgNames = new ArrayList<String>();
         inventory = Inventory.getInventory();
         inventoryQuan = Inventory.getInventoryCnt();
 
         int xCnt = 5;
-        String displayed = "";
         for (int i = 0; i < inventory.size(); i++) {
             for(int j = 0; j < inventory.get(i).size(); j++) {
-                if(!displayed.contains(inventory.get(i).get(j).getName())) {
-                    gr.drawImage(new ImageIcon("inventoryBox.png").getImage(), xCnt, 10, null);
-                    gr.drawImage(resizeImg(inventory.get(i).get(j).getImg(), 30, 30).getImage(), xCnt + 2, 10, null);
-                    imgCoordinates.add(xCnt + 2);
-                    itemTiles.add(inventory.get(i).get(j));
-                    gr.setFont(new Font("Times New Roman", Font.BOLD, 12));
-                    gr.drawString("" + inventoryQuan.get(i).get(j), xCnt + 2 + 30 + 2, 27);
-                    xCnt += 55;
-                    displayed += inventory.get(i).get(j).getName() + " ";
-                }
+                gr.drawImage(new ImageIcon("inventoryBox.png").getImage(), xCnt, 10, null);
+                gr.drawImage(resizeImg(inventory.get(i).get(j).getImg(), 30, 30).getImage(), xCnt + 2, 10, null);
+                imgCoordinates.add(xCnt + 2);
+                imgNames.add(inventory.get(i).get(j).getName());
+                gr.setFont(new Font("Times New Roman", Font.BOLD, 12));
+                gr.drawString("" + inventoryQuan.get(i).get(j), xCnt + 2 + 30 + 2, 27);
+                xCnt += 55;
             }
         }
     }
@@ -102,34 +98,12 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        myLabel:
         for(int i = 0; i < imgCoordinates.size(); i++){
             if(imgCoordinates.get(i) <= e.getX() && imgCoordinates.get(i) + 30 >= e.getX() && e.getY() >= 10 && e.getY() <= 40){
-                int num = specifiedItemInventoryQuan(itemTiles.get(i).getName());
-                for(int j = 0; j < inventory.size(); j++){
-                    for(int k = 0; k < inventory.get(j).size(); k++){
-                        if(itemTiles.get(i).getName().equals(inventory.get(j).get(k).getName()) && num > 0){
-                            if(!inventory.get(j).get(k).isPlaced()){
-                                map.addToMap(inventory.get(j).get(k));
-                                break myLabel;
-                            }
-                            num--;
-                        }
-                    }
-                }
+                map.addToMap(imgNames.get(i));
             }
         }
         repaint();
-    }
-    public int specifiedItemInventoryQuan(String name){
-        for(int i = 0; i < inventory.size(); i++){
-            for(int j = 0; j < inventory.get(i).size(); j++){
-                if(inventory.get(i).get(j).getName().equals(name)){
-                    return inventoryQuan.get(i).get(j);
-                }
-            }
-        }
-        return 0;
     }
 
     @Override

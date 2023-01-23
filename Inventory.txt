@@ -1,6 +1,9 @@
 Townhouse
 Roads
-Gravel
 Roads
-Tiles
 Gravel
+Gravel
+Tiles
+Wheat
+Corn
+Carrot

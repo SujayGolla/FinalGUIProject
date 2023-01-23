@@ -126,4 +126,7 @@ public class BarnItem extends ShopItemTiles{
         }
         return false;
     }
+    public boolean isBarnItem(){
+        return true;
+    }
 }

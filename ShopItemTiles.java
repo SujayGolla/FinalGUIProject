@@ -28,6 +28,7 @@ public class ShopItemTiles {
     protected static final String farmsNames = "Cowshed, Chicken Coop, Sheep Farm";
     protected static final String basicsNames = "Roads, Gravel, Tiles";
     protected static final String specialsNames = "Townhall, Barn, Fountain";
+    protected static final String cropsNames = "Wheat, Carrot, Corn, Rice, Apples, Strawberry, Cotton, Tomatoes, Potatoes";
     protected final int size = 30;
 
     public ShopItemTiles(String name, int price, ImageIcon img, ImageIcon[] animations, int unlockLVL){
@@ -126,6 +127,12 @@ public class ShopItemTiles {
     public static String getSpecialsNames() {
         return specialsNames;
     }
+    public static String getCropsNames(){
+        return cropsNames;
+    }
+    public boolean isBarnItem(){
+        return false;
+    }
 
     public void setX(int x) {
         this.x = x;
@@ -150,6 +157,8 @@ public class ShopItemTiles {
 
 
     public ImageIcon getRandomImg(){
+        if(animations != null)
+            return animations[0];
         return img;
     }
 
@@ -212,11 +221,11 @@ public class ShopItemTiles {
         } else if (name.equals("Potatoes")){
             return new ShopItemTiles("Potatoes", 5, new ImageIcon("Potato.png"), null, 3);
         } else if (name.equals("Roads")) {
-            return new ShopItemTiles("Roads", 0, new ImageIcon("Road.png"), null, 1);
+            return new ShopItemTiles("Roads", 0, new ImageIcon("Road.png"), new ImageIcon[]{new ImageIcon("Road(1).png")}, 1);
         } else if (name.equals("Gravel")) {
-            return new ShopItemTiles("Gravel", 0, new ImageIcon("Gravel.png"), null, 1);
+            return new ShopItemTiles("Gravel", 0, new ImageIcon("Gravel.png"), new ImageIcon[]{new ImageIcon("Gravel(1).png")}, 1);
         } else if (name.equals("Tiles")) {
-            return new ShopItemTiles("Tiles", 0, new ImageIcon("Tiles.png"), null, 1);
+            return new ShopItemTiles("Tiles", 0, new ImageIcon("Tiles.png"), new ImageIcon[]{new ImageIcon("Tiles(1).png")}, 1);
         } else if (name.equals("Barn")) {
             return new ShopItemTiles("Barn", 0, new ImageIcon("Barn.png"), null, 1);
         } else if (name.equals("Townhall")) {

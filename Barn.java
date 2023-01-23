@@ -96,6 +96,22 @@ public class Barn extends JPanel implements ActionListener{
                 yCnt += 70 + 10;
             }
         }
+        ArrayList<ShopItemTiles> crops = Inventory.getCrops();
+        ArrayList<Integer> cropsCnt = Inventory.getCropsCnt();
+
+        for(int i = 0; i < crops.size(); i++){
+            ShopItemTiles s = crops.get(i);
+            g.drawImage(new ImageIcon("barnBox.png").getImage(), xCnt, yCnt + 15, null);
+            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + 15, yCnt + 27 + 5, null); //some formatting values done through trial and error
+            g.setFont(new Font("Times New Roman", Font.BOLD, 18));
+            g.drawString("" + cropsCnt.get(i), xCnt + 15 + 35 + 15, yCnt + 40 + 5 + 10);//some formatting values done through trial and error
+            cnt++;
+            xCnt += 100 + 10; // the cnt for the spacing between each item
+            if(cnt%8 == 0) { // increasing the gap even more if theres a new row
+                xCnt = 22;
+                yCnt += 70 + 10;
+            }
+        }
     }
 
 

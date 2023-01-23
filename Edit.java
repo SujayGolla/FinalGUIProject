@@ -7,6 +7,7 @@ Teacher: Ms.Strelkovska
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Edit extends Map implements MouseListener, MouseWheelListener, KeyListener {
     private ShopItemTiles currentItem = null;
@@ -72,24 +73,28 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
                     if(currentItem.getY() - 30 >= 0){
                         currentItem.setY(currentItem.getY() - 30);
                     }
+                    break;
                 }
             case KeyEvent.VK_DOWN:
                 if(currentItem != null){
                     if(currentItem.getY() + 60 <= 600){
                         currentItem.setY(currentItem.getY() + 30);
                     }
+                    break;
                 }
             case KeyEvent.VK_RIGHT:
                 if(currentItem != null){
                     if(currentItem.getX() + 60 <= 1830){
                         currentItem.setX(currentItem.getX() + 30);
                     }
+                    break;
                 }
             case KeyEvent.VK_LEFT:
                 if(currentItem != null){
                     if(currentItem.getX() - 30 >= 0){
                         currentItem.setX(currentItem.getX() - 30);
                     }
+                    break;
                 }
         }
         repaint();
@@ -99,33 +104,29 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
     public void mouseWheelMoved(MouseWheelEvent e) {
         super.mouseWheelMoved(e);
     }
-    public void addToMap(ShopItemTiles s){
-        currentItem = s;
-        for(int i = tiles.size()-1; i >= 0; i--){
-            if(tiles.get(i).getName().equals("Grass")){
-                if(nothingOnTile(tiles.get(i))) {
-                    currentItem.replaceTile(tiles.get(i));
-                    items.add(currentItem);
+    public void addToMap(String s){
+        myLabel:
+        for(int i = 0; i < items.size(); i++) {
+            if(items.get(i).getName().equals(s) && !items.get(i).isPlaced()) {
+                currentItem = items.get(i);
+                for(int j = 0; j < tiles.size(); j++){
+                    if(tiles.get(j).getName().equals("Grass")){
+                        if(nothingOnTile(tiles.get(j))) {
+                            currentItem.replaceTile(tiles.get(j));
+                            break myLabel;
+                        }
+                    }
                 }
             }
         }
         repaint();
         currentItem = null;
     }
-    public boolean nothingOnTile(ShopItemTiles s){
-        for(int i = 0; i < items.size(); i++){
-            if(s.isOnTile(items.get(i).getX(), items.get(i).getY()))
-                return false;
-        }
-        return true;
-    }
-
     public void reset(){
         for(int i = 0; i < items.size(); i++){
             items.get(i).setY(-1);
             items.get(i).setX(-1);
         }
-        items.clear();
         repaint();
     }
 }

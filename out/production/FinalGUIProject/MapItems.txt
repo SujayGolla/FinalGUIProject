@@ -1,0 +1,6 @@
+Townhouse=720,240
+Roads=480,210
+Roads=510,180
+Gravel=-1,-1
+Gravel=-1,-1
+Tiles=-1,-1
