@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Production extends JPanel implements ActionListener{
     private JPanel n, c;
@@ -93,6 +92,9 @@ public class Production extends JPanel implements ActionListener{
         cFar.add(new JLabel(new ImageIcon("Untitled(1).png")));
         for (ShopItemTiles s : farmsArray) {
             displayItems(s, cFar, cnt, 10);
+            JScrollPane cFarScroll = new JScrollPane(cFar);
+            c.add("Farming", cFarScroll);
+        }
         JScrollPane cFarScroll = new JScrollPane(cFar);
         c.add("Farming", cFarScroll);
     }
