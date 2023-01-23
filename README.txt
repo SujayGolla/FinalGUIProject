@@ -24,7 +24,9 @@ Production - Sujay & Akaren
 Shop - Sujay
 ShopItemTiles - Sujay
 SpecialTiles - Sujay
-Timer - Akaren
 
 
-Extra: Isometric Map (We did not use this as we were not able to figure out how to connect it with java.swing) - Akaren
+
+Extra:
+Isometric Map (We did not use this as we were not able to figure out how to connect it with java.swing) - Akaren
+Timer(We also did not use this) - Akaren

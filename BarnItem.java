@@ -1,3 +1,11 @@
+/*
+Name: Sujay and Akaren
+Class: ICS 3U7
+Teacher: Ms.Strelkovska
+Description: This is class is similar to the shopItem class where it keeps track of all possible barnItems. Barnitems are all items that you can produce through factories/farms.
+*/
+
+
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -6,6 +14,8 @@ public class BarnItem extends ShopItemTiles{
     private final String factoryName;
     private ShopItemTiles[] requirements;
     private static final int barnItemCnt = 16;
+
+    //list of all barnItems
     private static final BarnItem[][] barn = {{BarnItem.getBarnItem("Bread")}, {BarnItem.getBarnItem("Cow Feed"), BarnItem.getBarnItem("Chicken Feed"), BarnItem.getBarnItem("Sheep Feed")}, {BarnItem.getBarnItem("Cream"), BarnItem.getBarnItem("Cheese"), BarnItem.getBarnItem("Butter")}, {BarnItem.getBarnItem("Cotton Fabric"), BarnItem.getBarnItem("Yarn")}, {BarnItem.getBarnItem("Cheeseburger"), BarnItem.getBarnItem("Sandwich"), BarnItem.getBarnItem("Milkshake"), BarnItem.getBarnItem("French fries")}, {BarnItem.getBarnItem("Milk")}, {BarnItem.getBarnItem("Egg")}, {BarnItem.getBarnItem("Wool")}};
     public BarnItem(String name, ShopItemTiles[] requirements, int val, ImageIcon img, String factoryName){
         super(name, 0, img, null, 0);
@@ -19,6 +29,7 @@ public class BarnItem extends ShopItemTiles{
             throw new RuntimeException(e);
         }
     }
+    // This includes all the requirements to make the item, the value of the item, the image of the item  and the factory/farm that is needed to make it
     public static BarnItem getBarnItem(String name){
         if (name.equals("Bread")) {
             return new BarnItem("Bread", new ShopItemTiles[]{ShopItemTiles.getShopItem("Wheat"), ShopItemTiles.getShopItem("Wheat")}, 20, new ImageIcon("Bread.png"), "Bakery");
@@ -55,6 +66,8 @@ public class BarnItem extends ShopItemTiles{
         }
         return null;
     }
+
+    // If they can buy the item
     public boolean canBuyItem(){
         ArrayList<ArrayList<ShopItemTiles>> inventory = Inventory.getInventory();
         for(ShopItemTiles s : requirements){
@@ -64,14 +77,17 @@ public class BarnItem extends ShopItemTiles{
                 for (ShopItemTiles item : a){
                     if(item.getName().equals(s.getName())) {
                         found = true;
+                        // if the item is found in the inventory, remove it
                         a.remove(item);
                         break myLabel;
                     }
                 }
             }
             if(!found)
+                // if the item is not found in the inventory, return false
                 return false;
         }
+        // if all the items are found in the inventory, return true
         return true;
     }
 
@@ -93,8 +109,8 @@ public class BarnItem extends ShopItemTiles{
 
     public void sellItem() throws Exception {
         if(canSell()) {
-            Game.setCoins(Game.getCoins() + val);
-            Game.setXp(Game.getXp() + 10);
+            Game.setCoins(Game.getCoins() + val); // increases their money by its value when they sell it
+            Game.setXp(Game.getXp() + 10); // increases their exp
             JOptionPane.showMessageDialog(Cards.c, "You successfully sold the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(Cards.c, "You don't have that item.", "Can't sell", JOptionPane.WARNING_MESSAGE);
@@ -102,9 +118,10 @@ public class BarnItem extends ShopItemTiles{
         Game.update();
     }
 
+    // checks if they can sell the item
     public boolean canSell() {
         for (int i = 0; i < Barn.getBarn().size(); i++) {
-            if (name.equals(Barn.getBarn().get(i).getName()) && Barn.getBarnQuan().get(i) >= 1)
+            if (name.equals(Barn.getBarn().get(i).getName()) && Barn.getBarnQuan().get(i) >= 1) // if the item is in the barn and the quantity is greater than 1
                 return true;
         }
         return false;

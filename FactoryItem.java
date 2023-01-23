@@ -2,6 +2,7 @@
 Name: Sujay and Akaren
 Class: ICS 3U7
 Teacher: Ms.Strelkovska
+Description: This class is for the shop class and when the player tries to buy a factory. This is similar to the shopitem class but has different requirements than some other items
 */
 
 import javax.swing.*;
@@ -24,16 +25,16 @@ public class FactoryItem extends ShopItemTiles {
         this.reqPpl = reqPpl;
     }
     public void purchaseItem() throws Exception {
-        if(canBuyItem()){
+        if(canBuyItem()){ // if they can buy the fatory (meet the requirements)
             Game.setCoins(Game.getCoins() - price);
-            Game.setXp(Game.getXp() + 10);
-            setReqPpl(getReqPpl() + 35);
+            Game.setXp(Game.getXp() + 10); // increases their exp
+            setReqPpl(getReqPpl() + 35); // increases the requirement of the number of people needed
         }else{
-            if(Game.getLvl() < unlockLVL)
+            if(Game.getLvl() < unlockLVL) // if the player has a lower level
                 JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
-            else if (Game.getCoins() - price >= 0)
+            else if (Game.getCoins() - price >= 0) // if the player doesnt have enough money
                 JOptionPane.showMessageDialog(Cards.c, "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
-            else if (Game.getPopulation() < reqPpl)
+            else if (Game.getPopulation() < reqPpl) // if they dont have a high enough population
                 JOptionPane.showMessageDialog(Cards.c, "You don't have the required number of people", "Can't buy", JOptionPane.WARNING_MESSAGE);
         }
         Game.update();

@@ -2,6 +2,8 @@
 Name: Sujay and Akaren
 Class: ICS 3U7
 Teacher: Ms.Strelkovska
+Description: This is the shopItemTiles class which includes all the items that the player can buy.
+In this class there are arrays with all the items and types of items, and it also includes methods that check if the user can buy items.
 */
 
 import javax.swing.*;
@@ -30,6 +32,7 @@ public class ShopItemTiles {
 
     public ShopItemTiles(String name, int price, ImageIcon img, ImageIcon[] animations, int unlockLVL){
         try {
+            //create an instance of game
             new Game();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -43,6 +46,7 @@ public class ShopItemTiles {
 
     public ShopItemTiles(String name, ImageIcon img, ImageIcon[] sprites){
         try {
+            //create an instance of game
             new Game();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -56,16 +60,22 @@ public class ShopItemTiles {
 
     public void purchaseItem() throws Exception {
         if(canBuyItem()) {
+            // substract the price from the total coins
             Game.setCoins(Game.getCoins() - price);
             if(price > 0)
+                //increment the xp by 10
                 Game.setXp(Game.getXp() + 10);
+            //show the success message
             JOptionPane.showMessageDialog(Cards.c, "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         } else {
+            //if the lvl is less than the required lvl
             if(Game.getLvl() < unlockLVL)
                 JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
+                //if the coins are not enough
             else if (Game.getCoins() - price >= 0)
                 JOptionPane.showMessageDialog(Cards.c, "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
         }
+        //update the game
         Game.update();
     }
 
@@ -85,9 +95,6 @@ public class ShopItemTiles {
         return name;
     }
 
-    public ImageIcon[] getAnimations() {
-        return animations;
-    }
     public boolean isUnlocked(){
         return Game.getLvl() >= unlockLVL;
     }
@@ -124,17 +131,10 @@ public class ShopItemTiles {
         this.x = x;
     }
 
-    public boolean isSpecialTile(){
-        return false;
-    }
-
     public void setY(int y) {
         this.y = y;
     }
 
-    public static int getNumHouses() {
-        return numHouses;
-    }
 
     public static int getNumFactories() {
         return numFactories;
@@ -148,25 +148,11 @@ public class ShopItemTiles {
         return 0;
     }
 
-    public static int getNumFarms() {
-        return numFarms;
-    }
 
     public ImageIcon getRandomImg(){
         return img;
     }
 
-    public static int getNumCrops() {
-        return numCrops;
-    }
-
-    public static int getNumBasics() {
-        return numBasics;
-    }
-
-    public static int getNumSpecials() {
-        return numSpecials;
-    }
     public void myDraw(Graphics g){
         g.drawImage(getRandomImg().getImage(), x, y, size, size,null);
     }
@@ -180,6 +166,8 @@ public class ShopItemTiles {
         x = other.x;
         y = other.y;
     }
+
+    // all the shopItems with its name, price, image, level requirement and population
     public static ShopItemTiles getShopItem(String name){
         if (name.equals("Townhouse")) {
             return new HouseItem("Townhouse", 50, new ImageIcon("Townhouse.png"), null, 2, 15);

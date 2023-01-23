@@ -2,6 +2,7 @@
 Name: Sujay and Akaren
 Class: ICS 3U7
 Teacher: Ms.Strelkovska
+Description: This class is used for the shop class, when the player tries to buy a farm. This is similar to the shopitem class but is different since it has different requirements.
 */
 
 import javax.swing.*;
@@ -25,16 +26,16 @@ public class FarmItem extends ShopItemTiles {
     }
 
     public void purchaseItem() throws Exception {
-        if(canBuyItem()){
-            Game.setCoins(Game.getCoins() - price);
-            Game.setXp(Game.getXp() + 10);
-            reqPpl += 35;
+        if(canBuyItem()){ // if they can buy the item
+            Game.setCoins(Game.getCoins() - price); // decrease their money
+            Game.setXp(Game.getXp() + 10); // increase their exp
+            reqPpl += 35; // add to the requirement
         }else{
-            if(Game.getLvl() < unlockLVL)
+            if(Game.getLvl() < unlockLVL) // if their lvl is too low
                 JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
-            else if (Game.getCoins() - price >= 0)
+            else if (Game.getCoins() - price >= 0) // if they dont have enough money
                 JOptionPane.showMessageDialog(Cards.c, "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
-            else if (Game.getPopulation() < reqPpl)
+            else if (Game.getPopulation() < reqPpl) // if they dont meet the population requirement
                 JOptionPane.showMessageDialog(Cards.c, "You don't have the required number of people", "Can't buy", JOptionPane.WARNING_MESSAGE);
         }
         Game.update();

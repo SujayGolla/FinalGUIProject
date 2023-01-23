@@ -2,6 +2,7 @@
 Name: Sujay and Akaren
 Class: ICS 3U7
 Teacher: Ms.Strelkovska
+Description: This is the map class where it reads a file to make the default map and then saves the buildings that are added onto the map
 */
 
 import javax.swing.*;
@@ -31,15 +32,15 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
     public Map(){
         addKeyListener(this);
         addMouseWheelListener(this);
-        this.setFocusable(true);
+        this.setFocusable(true); // makes the game detect key pressing
         try {
-            sc = new Scanner(new File("Map.txt"));
+            sc = new Scanner(new File("Map.txt")); // reading the txt to make the default map
             new Inventory();
             new Game();
         } catch (Exception e) {
             System.out.println(e);
         }
-        map = new char[20][61];
+        map = new char[20][61]; // reading the map and making the map according to its type and the row and column
         tiles = new ArrayList<ShopItemTiles>();
         for(int i = 0; i < map.length; i++){
             for(int j= 0; j < map[i].length; j++){
@@ -83,16 +84,17 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
     }
     public void saveMap() {
         try {
-            new FileWriter("MapItems.txt", false).close();
-            FileWriter gameData = new FileWriter("MapItems.txt");
+            new FileWriter("MapItems.txt", false).close(); // clear the file
+            FileWriter gameData = new FileWriter("MapItems.txt"); // create new file writer
             for(int i = 0; i < items.size(); i++){
-                gameData.write(items.get(i).getName().replace(' ', '_') + "=" + items.get(i).getX() + "," + items.get(i).getY()+"\n");
+                gameData.write(items.get(i).getName().replace(' ', '_') + "=" + items.get(i).getX() + "," + items.get(i).getY()+"\n"); // write to the file
             }
             gameData.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void addToTiles(String name, int i, int j){
         ShopItemTiles s = ShopItemTiles.getShopItem(name);
         s.setX(j*30);
@@ -105,18 +107,19 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         super.paintComponent(g);
         saveMap();
 
-
+        // If the mouse is scrolled zoomer = true
         if (zoomer) {
-            g2.scale(zoomFactor, zoomFactor);
-            g2.translate(xCoord, yCoord);
+            g2.scale(zoomFactor, zoomFactor); // zooming in/out
+            g2.translate(xCoord, yCoord); // then translating it to the point where it was previously translated to
             zoomer = false;
         }
 
-        if (translater) {
-            g2.translate(xCoord, yCoord);
-            g2.scale(zoomFactor, zoomFactor);
+        if (translater) { // if they press a translate key
+            g2.translate(xCoord, yCoord); // translate first
+            g2.scale(zoomFactor, zoomFactor); // then zoom in.out
             translater = false;
         }
+
 
         for(int i = 0; i < tiles.size(); i++){
             tiles.get(i).myDraw(g);
@@ -129,15 +132,15 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
   public void mouseWheelMoved(MouseWheelEvent e) {
     zoomer = true;
     //Zoom in
-    if (e.getWheelRotation() < 0) {
-      if (zoomFactor < 1.45)
+    if (e.getWheelRotation() < 0) { // if they zoom in
+      if (zoomFactor < 1.45) // putting restrictions in order to not zoom in too much
         zoomFactor += 0.05;
     }
     else {
-      if (zoomFactor > 1)
+      if (zoomFactor > 1) // putting restrictions in order to not zoom out too much
         zoomFactor -= 0.05;
     }
-    repaint();
+    repaint(); // repainting the entire map
   }
 
     @Override
@@ -150,33 +153,23 @@ public class Map extends JPanel implements MouseWheelListener, KeyListener {
         switch (keyCode) {
             case KeyEvent.VK_W:
                 translater = true;
-                if(yCoord + 10 <= 0)
+                if(yCoord + 10 <= 0) // restrictions so that they dont go beyond the map
                     yCoord += 10;
                 break;
             case KeyEvent.VK_S:
                 translater = true;
-                if(yCoord - 10 >= -280)
+                if(yCoord - 10 >= -200) // restrictions so that they dont go beyond the map
                     yCoord -= 10;
                 break;
             case KeyEvent.VK_A:
                 translater = true;
-                if(xCoord + 10 <= 0)
+                if(xCoord + 10 <= 0) // restrictions so that they dont go beyond the map
                     xCoord += 10;
                 break;
             case KeyEvent.VK_D:
                 translater = true;
-                if(xCoord - 10 >= -830)
+                if(xCoord - 10 >= -700) // restrictions so that they dont go beyond the map
                     xCoord -= 10;
-                break;
-            case KeyEvent.VK_PLUS:
-                zoomer = true;
-                if (zoomFactor < 1.45)
-                    zoomFactor += 0.05;
-                break;
-            case KeyEvent.VK_MINUS:
-                zoomer = true;
-                if (zoomFactor > 0.55)
-                    zoomFactor -= 0.05;
                 break;
         }
         repaint();

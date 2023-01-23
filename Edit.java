@@ -54,7 +54,7 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
                 break;
             case KeyEvent.VK_S:
                 translater = true;
-                if(yCoord - 10 >= -280)
+                if(yCoord - 10 >= -200)
                     yCoord -= 10;
                 break;
             case KeyEvent.VK_A:
@@ -66,16 +66,6 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
                 translater = true;
                 if(xCoord - 10 >= -830)
                     xCoord -= 10;
-                break;
-            case KeyEvent.VK_PLUS:
-                zoomer = true;
-                if (zoomFactor < 1.45)
-                    zoomFactor += 0.05;
-                break;
-            case KeyEvent.VK_MINUS:
-                zoomer = true;
-                if (zoomFactor > 0.55)
-                    zoomFactor -= 0.05;
                 break;
             case KeyEvent.VK_UP:
                 if(currentItem != null){

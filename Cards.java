@@ -2,6 +2,7 @@
 Name: Sujay and Akaren
 Class: ICS 3U7
 Teacher: Ms.Strelkovska
+Description: Manages the card layout and switches between panels
 */
 
 import javax.swing.*;
@@ -24,10 +25,12 @@ public class Cards extends JFrame{
     static Instructions3 ins3;
 
     public Cards() throws Exception{
+        // Get the content pane and set its layout to card layout
         c = getContentPane();
         layout = new CardLayout();
         c.setLayout(layout);
 
+        // Initialize all the panels
         m = new MainMenu();
         h = new Homepage();
         s = new Shop();
@@ -39,6 +42,7 @@ public class Cards extends JFrame{
         ins2 = new Instructions2();
         ins3 = new Instructions3();
 
+        // Add all the panels to the container
         c.add("MainMenu", m);
         c.add("Homepage", h);
         c.add("Shop", s);
@@ -52,7 +56,9 @@ public class Cards extends JFrame{
     }
 
     public static void flipToCard(String cardID){
+        // Show the card specified by cardID
         layout.show(c, cardID);
+        // Update the current panel in focus
         currentPanelFocus = cardID;
     }
 

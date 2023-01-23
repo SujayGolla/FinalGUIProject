@@ -2,6 +2,7 @@
 Name: Sujay and Akaren
 Class: ICS 3U7
 Teacher: Ms.Strelkovska
+Description: This is the barn class, which keeps all the barnItems that the player has
 */
 
 import javax.swing.*;
@@ -25,8 +26,8 @@ public class Barn extends JPanel implements ActionListener{
         this.setLayout(new BorderLayout());
         this.setBackground(Color.GRAY);
 
-        barnItems.clear();
-        barnQuan.clear();
+        barnItems.clear(); //clears the items so that it doesnt overlap when the txt file is read and re-adds the items into the array
+        barnQuan.clear(); //clears the items so that it doesnt overlap when the txt file is read and re-adds the items into the array
 
         Scanner sc = null;
         try {
@@ -39,21 +40,23 @@ public class Barn extends JPanel implements ActionListener{
         while (sc.hasNextLine()) {
             boolean added = false;
             String name = sc.nextLine();
-            for (int i = 0; i < barnItems.size(); i++) {
+            for (int i = 0; i < barnItems.size(); i++) { // if the item is already in the arraylist with all the names of the items
                 if (barnItems.get(i).getName().equals(name.replace('_', ' '))) {
-                    barnQuan.set(i,barnQuan.get(i)+1);
+                    barnQuan.set(i,barnQuan.get(i)+1); // increase the quantity
                     added = true;
                 }
             }
 
 
-            if (!added) {
+            if (!added) { // if the item isnt already in the arraylist with all the names of the items
                 barnItems.add(BarnItem.getBarnItem(name.replace('_', ' ')));
-                barnQuan.add(1);
+                barnQuan.add(1); // increase the quantity
             }
         }
         sc.close();
+
         makeSouth();
+        // creating the borderLayout.south panel
         this.add(s, BorderLayout.SOUTH);
         c = new JPanel();
         JLabel l = new JLabel(new ImageIcon("Untitled(3).png"));
@@ -61,6 +64,7 @@ public class Barn extends JPanel implements ActionListener{
         c.add(l);
         this.add(c, BorderLayout.NORTH);
 
+        // refreshes the panel every 10 milliseconds in case the player gets new barnItems
         Thread thread = new Thread(() -> {
             while(true){
                 repaint();
@@ -74,25 +78,28 @@ public class Barn extends JPanel implements ActionListener{
         thread.start();
     }
 
+    // Showing all the barn items
     public void makeCenter(Graphics g) {
-        int xCnt = 22;
-        int yCnt = 40;
-        int cnt = 0;
+        int xCnt = 22; // the counter for the space between each barn item (x value)
+        int yCnt = 40;// the counter for the space between each barn item (y value)
+        int cnt = 0; // the cnt for the number of barnItems
         for (int i = 0; i < barnItems.size(); i++) {
             BarnItem s = barnItems.get(i);
             g.drawImage(new ImageIcon("barnBox.png").getImage(), xCnt, yCnt + 15, null);
-            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + 15, yCnt + 27 + 5, null);
+            g.drawImage(EditOptionPanel.resizeImg(s.getImg(), 35,35).getImage(), xCnt + 15, yCnt + 27 + 5, null); //some formatting values done through trial and error
             g.setFont(new Font("Times New Roman", Font.BOLD, 18));
-            g.drawString("" + barnQuan.get(i), xCnt + 15 + 35 + 15, yCnt + 40 + 5 + 10);
+            g.drawString("" + barnQuan.get(i), xCnt + 15 + 35 + 15, yCnt + 40 + 5 + 10);//some formatting values done through trial and error
             cnt++;
-            xCnt += 100 + 10;
-            if(cnt%8 == 0) {
+            xCnt += 100 + 10; // the cnt for the spacing between each item
+            if(cnt%8 == 0) { // increasing the gap even more if theres a new row
                 xCnt = 22;
                 yCnt += 70 + 10;
             }
         }
     }
 
+
+    // The title with the back button
     public void makeSouth(){
         back = new JButton(new ImageIcon("back.png"));
         defaultButtonSetup(back);
@@ -133,26 +140,30 @@ public class Barn extends JPanel implements ActionListener{
             Cards.flipToCard("Homepage");
     }
 
+
     public static ArrayList<BarnItem> getBarn() {
         return barnItems;
     }
 
+
+    // adding a barnItem to the barn
     public static void addToBarn(BarnItem b) {
         boolean added = false;
-        for (int i = 0; i < barnItems.size(); i++) {
+        for (int i = 0; i < barnItems.size(); i++) { // if we already have the item in the barn
             if (barnItems.get(i).getName().equals(b.getName())) {
-                barnQuan.set(i,barnQuan.get(i)+1);
+                barnQuan.set(i,barnQuan.get(i)+1); // increasing the quantity
                 added = true;
             }
         }
 
-        if (!added) {
-            barnItems.add(BarnItem.getBarnItem(b.getName()));
+        if (!added) { // if we dont already have the item in the barn
+            barnItems.add(BarnItem.getBarnItem(b.getName())); // adding the name to the arraylist
             barnQuan.add(1);
         }
 
         FileWriter gameData = null;
 
+        // rewriting the file and deleting the old one
         try {
             new FileWriter("barn.txt", false).close();
             gameData = new FileWriter("barn.txt");
@@ -171,15 +182,17 @@ public class Barn extends JPanel implements ActionListener{
     public static ArrayList<Integer> getBarnQuan() {
         return barnQuan;
     }
+
+    // removing a barnItem from the barn
     public static void removeBarnItem(BarnItem b) {
-        for (int i = 0; i < barnItems.size(); i++) {
+        for (int i = 0; i < barnItems.size(); i++) { // if we already have the item in the barn
             if (barnItems.get(i).getName().equals(b.getName())) {
-                barnQuan.set(i,barnQuan.get(i)-1);
+                barnQuan.set(i,barnQuan.get(i)-1); // decreasing the quantity
             }
         }
 
         FileWriter gameData = null;
-
+        // rewriting the file and deleting the old one
         try {
             new FileWriter("barn.txt", false).close();
             gameData = new FileWriter("barn.txt");
