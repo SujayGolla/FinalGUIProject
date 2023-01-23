@@ -68,7 +68,7 @@ public class Inventory {
         }
         while (sc.hasNextLine()) {
             boolean added = false;
-            String name = sc.nextLine();
+            String name = sc.nextLine().replace('_', ' ');
             ArrayList<ShopItemTiles> array = null;
             ArrayList<Integer> arrayQuan = null;
             if(ShopItemTiles.getHousesNames().contains(name)) {
@@ -160,7 +160,7 @@ public class Inventory {
             new FileWriter("Inventory.txt", false).close();
             gameData = new FileWriter("Inventory.txt");
             gameData.write(fileContent);
-            gameData.write(s.getName());
+            gameData.write(s.getName().replace(' ', '_'));
             gameData.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -193,18 +193,34 @@ public class Inventory {
             for (int i = 0; i < inventory.size(); i++){
                 for (int j = 0; j < inventory.get(i).size(); j++){
                     for(int k = 0; k < inventoryCnt.get(i).get(j); k++){
-                        gameData.write(inventory.get(i).get(j).getName() + "\n");
+                        gameData.write(inventory.get(i).get(j).getName().replace(' ', '_') + "\n");
                     }
                 }
             }
             for (int i = 0; i < crops.size(); i++){
                 for (int j = 0; j < cropsCnt.get(i); j++){
-                    gameData.write(crops.get(i).getName() + "\n");
+                    gameData.write(crops.get(i).getName().replace(' ', '_') + "\n");
                 }
             }
             gameData.close();
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public static ArrayList<Integer> getFactoriesCnt() {
+        return factoriesCnt;
+    }
+
+    public static ArrayList<ShopItemTiles> getFactories() {
+        return factories;
+    }
+
+    public static ArrayList<ShopItemTiles> getFarms() {
+        return farms;
+    }
+
+    public static ArrayList<Integer> getFarmsCnt() {
+        return farmsCnt;
     }
 }

@@ -7,3 +7,5 @@ Tiles
 Wheat
 Corn
 Carrot
+Cowshed
+Feed_Mill

@@ -127,12 +127,12 @@ public class BasicProductionFrame extends JFrame implements ActionListener {
             if (items[i].getName().equals(name)) {
                 // if the item is selected, add it to the barn
                 if(canProduceItem(items[i])) {
-                    JOptionPane.showMessageDialog(Cards.c, "Item successfully added to Barn!", "Success!", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(Cards.getC(), "Item successfully added to Barn!", "Success!", JOptionPane.PLAIN_MESSAGE);
                     produceItem(items[i]);
                     break;
                 }
                 else {
-                    JOptionPane.showMessageDialog(Cards.c, "You don't have the required items", "Sorry!", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(Cards.getC(), "You don't have the required items", "Sorry!", JOptionPane.PLAIN_MESSAGE);
                     break;
                 }
             }

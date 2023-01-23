@@ -9,20 +9,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Cards extends JFrame{
-    static CardLayout layout;
-    static Container c;
-    static MainMenu m;
-    static Homepage h;
-    static Shop s;
-    static EditOptionPanel iP;
-    static Merchant me;
-    static Production f;
-    static Barn b;
-    static String currentPanelFocus = "MainMenu";
+    private static CardLayout layout;
+    private static Container c;
+    private static MainMenu m;
+    private static Homepage h;
+    private static Shop s;
+    private static EditOptionPanel iP;
+    private static Merchant me;
+    private static Production f;
+    private static Barn b;
 
-    static Instructions1 ins;
-    static Instructions2 ins2;
-    static Instructions3 ins3;
+    private static Instructions1 ins;
+    private static Instructions2 ins2;
+    private static Instructions3 ins3;
 
     public Cards() throws Exception{
         // Get the content pane and set its layout to card layout
@@ -58,11 +57,9 @@ public class Cards extends JFrame{
     public static void flipToCard(String cardID){
         // Show the card specified by cardID
         layout.show(c, cardID);
-        // Update the current panel in focus
-        currentPanelFocus = cardID;
     }
 
-    public static String getCurrentPanelFocus() {
-        return currentPanelFocus;
+    public static Container getC() {
+        return c;
     }
 }

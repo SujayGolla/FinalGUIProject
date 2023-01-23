@@ -25,8 +25,10 @@ Shop - Sujay
 ShopItemTiles - Sujay
 SpecialTiles - Sujay
 
-
-
-Extra:
 Isometric Map (We did not use this as we were not able to figure out how to connect it with java.swing) - Akaren
 Timer(We also did not use this) - Akaren
+
+Extra/Notes:
+
+It is recommended that you restart the application everytime you level up
+There is a small bug when you reopen the file and you might see that the same item with quantity greater than 1 being on the same place, but can be edited normally in the Edit option

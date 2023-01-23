@@ -67,14 +67,14 @@ public class ShopItemTiles {
                 //increment the xp by 10
                 Game.setXp(Game.getXp() + 10);
             //show the success message
-            JOptionPane.showMessageDialog(Cards.c, "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(Cards.getC(), "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         } else {
             //if the lvl is less than the required lvl
             if(Game.getLvl() < unlockLVL)
-                JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(Cards.getC(), "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
                 //if the coins are not enough
             else if (Game.getCoins() - price >= 0)
-                JOptionPane.showMessageDialog(Cards.c, "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(Cards.getC(), "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
         }
         //update the game
         Game.update();

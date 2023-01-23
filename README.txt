@@ -31,3 +31,4 @@ Timer(We also did not use this) - Akaren
 Extra/Notes:
 
 It is recommended that you restart the application everytime you level up
+There is a small bug when you reopen the file and you might see that the same item with quantity greater than 1 being on the same place, but can be edited normally in the Edit option

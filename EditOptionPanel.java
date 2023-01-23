@@ -18,16 +18,18 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
     private ArrayList<Integer> imgCoordinates;
     private ArrayList<String> imgNames;
     public EditOptionPanel(){
-        new Inventory();
+        //Getting things from Inventory
         inventory = Inventory.getInventory();
         inventoryQuan = Inventory.getInventoryCnt();
         this.setLayout(new BorderLayout());
 
+        //Button setup
         back = new JButton(new ImageIcon("back.png"));
         defaultButtonSetup(back);
         reset = new JButton(new ImageIcon("reset.png"));
         defaultButtonSetup(reset);
 
+        //Panels setup
         top = new JPanel();
 
         top.setBackground(new Color(0,0,0,0));
@@ -53,6 +55,7 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         addMouseListener(this);
     }
     public void makeTopInventory(Graphics gr){
+        //To make it display all items in the inventory
         imgCoordinates = new ArrayList<Integer>();
         imgNames = new ArrayList<String>();
         inventory = Inventory.getInventory();
@@ -79,6 +82,7 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
         b.addActionListener(this);
     }
     public static ImageIcon resizeImg(ImageIcon img, int w, int h){
+        //To resize images
         Image image = img.getImage();
         Image newImg = image.getScaledInstance(w, h,  java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(newImg);
@@ -86,18 +90,19 @@ public class EditOptionPanel extends JPanel implements ActionListener, MouseList
 
     public void paintComponent(Graphics gr){
         super.paintComponent(gr);
-        makeTopInventory(gr);
+        makeTopInventory(gr); //Updates Inventory every time the panel is painted
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back)
             Cards.flipToCard("Homepage");
         else if (e.getSource() == reset)
-            map.reset();
+            map.reset(); //Resets the map
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        //To detect which inventory item has been selected and to send to the map for painting
         for(int i = 0; i < imgCoordinates.size(); i++){
             if(imgCoordinates.get(i) <= e.getX() && imgCoordinates.get(i) + 30 >= e.getX() && e.getY() >= 10 && e.getY() <= 40){
                 map.addToMap(imgNames.get(i));

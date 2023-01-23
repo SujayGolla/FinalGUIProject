@@ -24,11 +24,11 @@ public class HouseItem extends ShopItemTiles {
             Game.setPopulation(Game.getPopulation() + ppl);
         }else {
             if(Game.getLvl() < unlockLVL)
-                JOptionPane.showMessageDialog(Cards.c, "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(Cards.getC(), "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
             else if (Game.getCoins() - price >= 0)
-                JOptionPane.showMessageDialog(Cards.c, "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(Cards.getC(), "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
             else if (Game.getPopulation() + ppl <= Game.getMaxPopulation())
-                JOptionPane.showMessageDialog(Cards.c, "Exceeds Max Population for this level", "Can't buy", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(Cards.getC(), "Exceeds Max Population for this level", "Can't buy", JOptionPane.WARNING_MESSAGE);
         }
         Game.update();
     }

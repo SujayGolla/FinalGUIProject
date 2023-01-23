@@ -1,6 +1,8 @@
-Townhouse=720,240
-Roads=480,210
-Roads=510,180
+Townhouse=-1,-1
+Feed_Mill=-1,-1
+Cowshed=-1,-1
+Roads=-1,-1
+Roads=-1,-1
 Gravel=-1,-1
 Gravel=-1,-1
 Tiles=-1,-1

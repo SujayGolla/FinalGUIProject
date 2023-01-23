@@ -185,7 +185,7 @@ public class Barn extends JPanel implements ActionListener{
             gameData = new FileWriter("barn.txt");
             for (int i = 0; i < barnItems.size(); i++){
                 for(int j = 0; j < barnQuan.get(i); j++) {
-                    gameData.write(barnItems.get(i).getName() + "\n");
+                    gameData.write(barnItems.get(i).getName().replace(' ', '_') + "\n");
                 }
             }
             gameData.close();
@@ -214,7 +214,7 @@ public class Barn extends JPanel implements ActionListener{
             gameData = new FileWriter("barn.txt");
             for (int i = 0; i < barnItems.size(); i++){
                 for(int j = 0; j < barnQuan.get(i); j++) {
-                    gameData.write(barnItems.get(i).getName() + "\n");
+                    gameData.write(barnItems.get(i).getName().replace(' ', '_') + "\n");
                 }
             }
             gameData.close();

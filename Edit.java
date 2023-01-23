@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class Edit extends Map implements MouseListener, MouseWheelListener, KeyListener {
     private ShopItemTiles currentItem = null;
     public Edit(){
+        //Gets everything from Map
         super();
         addMouseListener(this);
     }
@@ -19,6 +20,7 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
         super.paintComponent(g);
     }
     public void mouseClicked(MouseEvent e) {
+        //To see which item got selected
         for(int i = 0; i < items.size(); i++){
             if(items.get(i).isOnTile(e.getX(), e.getY())) {
                 currentItem = items.get(i);
@@ -46,6 +48,7 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
     }
     @Override
     public void keyPressed(KeyEvent e) {
+        //Controls all translations and transformations
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             case KeyEvent.VK_W:
@@ -105,6 +108,7 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
         super.mouseWheelMoved(e);
     }
     public void addToMap(String s){
+        //Just to add an item to the map
         myLabel:
         for(int i = 0; i < items.size(); i++) {
             if(items.get(i).getName().equals(s) && !items.get(i).isPlaced()) {
@@ -123,6 +127,7 @@ public class Edit extends Map implements MouseListener, MouseWheelListener, KeyL
         currentItem = null;
     }
     public void reset(){
+        //To clear everything
         for(int i = 0; i < items.size(); i++){
             items.get(i).setY(-1);
             items.get(i).setX(-1);

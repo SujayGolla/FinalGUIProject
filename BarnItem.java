@@ -95,10 +95,6 @@ public class BarnItem extends ShopItemTiles{
         return barn;
     }
 
-    public static int getBarnCnt() {
-        return barnItemCnt;
-    }
-
     public ShopItemTiles[] getRequirements() {
         return requirements;
     }
@@ -111,9 +107,9 @@ public class BarnItem extends ShopItemTiles{
         if(canSell()) {
             Game.setCoins(Game.getCoins() + val); // increases their money by its value when they sell it
             Game.setXp(Game.getXp() + 10); // increases their exp
-            JOptionPane.showMessageDialog(Cards.c, "You successfully sold the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(Cards.getC(), "You successfully sold the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(Cards.c, "You don't have that item.", "Can't sell", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(Cards.getC(), "You don't have that item.", "Can't sell", JOptionPane.WARNING_MESSAGE);
         }
         Game.update();
     }
