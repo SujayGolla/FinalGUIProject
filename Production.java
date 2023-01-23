@@ -93,7 +93,8 @@ public class Production extends JPanel implements ActionListener{
         cFar.add(new JLabel(new ImageIcon("Untitled(1).png")));
         for (ShopItemTiles s : farmsArray) {
             displayItems(s, cFar, cnt, 10);
-        }
+        JScrollPane cFarScroll = new JScrollPane(cFar);
+        c.add("Farming", cFarScroll);
     }
     public void displayItems(ShopItemTiles s, JPanel panel, int x, int y){
         //create panel
