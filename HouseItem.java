@@ -22,10 +22,11 @@ public class HouseItem extends ShopItemTiles {
             Game.setCoins(Game.getCoins() - price);
             Game.setXp(Game.getXp() + 10);
             Game.setPopulation(Game.getPopulation() + ppl);
+            JOptionPane.showMessageDialog(Cards.getC(), "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         }else {
             if(Game.getLvl() < unlockLVL)
                 JOptionPane.showMessageDialog(Cards.getC(), "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
-            else if (Game.getCoins() - price >= 0)
+            else if (Game.getCoins() - price <= 0)
                 JOptionPane.showMessageDialog(Cards.getC(), "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
             else if (Game.getPopulation() + ppl <= Game.getMaxPopulation())
                 JOptionPane.showMessageDialog(Cards.getC(), "Exceeds Max Population for this level", "Can't buy", JOptionPane.WARNING_MESSAGE);

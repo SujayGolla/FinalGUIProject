@@ -29,10 +29,11 @@ public class FactoryItem extends ShopItemTiles {
             Game.setCoins(Game.getCoins() - price);
             Game.setXp(Game.getXp() + 10); // increases their exp
             setReqPpl(getReqPpl() + 35); // increases the requirement of the number of people needed
+            JOptionPane.showMessageDialog(Cards.getC(), "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         }else{
             if(Game.getLvl() < unlockLVL) // if the player has a lower level
                 JOptionPane.showMessageDialog(Cards.getC(), "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
-            else if (Game.getCoins() - price >= 0) // if the player doesnt have enough money
+            else if (Game.getCoins() - price <= 0) // if the player doesnt have enough money
                 JOptionPane.showMessageDialog(Cards.getC(), "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
             else if (Game.getPopulation() < reqPpl) // if they dont have a high enough population
                 JOptionPane.showMessageDialog(Cards.getC(), "You don't have the required number of people", "Can't buy", JOptionPane.WARNING_MESSAGE);

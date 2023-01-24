@@ -30,10 +30,11 @@ public class FarmItem extends ShopItemTiles {
             Game.setCoins(Game.getCoins() - price); // decrease their money
             Game.setXp(Game.getXp() + 10); // increase their exp
             reqPpl += 35; // add to the requirement
+            JOptionPane.showMessageDialog(Cards.getC(), "You successfully purchased the item!", "Success!", JOptionPane.PLAIN_MESSAGE);
         }else{
             if(Game.getLvl() < unlockLVL) // if their lvl is too low
                 JOptionPane.showMessageDialog(Cards.getC(), "You haven't reached Level " + unlockLVL + " yet.", "Can't buy", JOptionPane.WARNING_MESSAGE);
-            else if (Game.getCoins() - price >= 0) // if they dont have enough money
+            else if (Game.getCoins() - price <= 0) // if they dont have enough money
                 JOptionPane.showMessageDialog(Cards.getC(), "You don't have enough coins.", "Can't buy", JOptionPane.WARNING_MESSAGE);
             else if (Game.getPopulation() < reqPpl) // if they dont meet the population requirement
                 JOptionPane.showMessageDialog(Cards.getC(), "You don't have the required number of people", "Can't buy", JOptionPane.WARNING_MESSAGE);
